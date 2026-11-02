@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { img } from './data'
 
 export function useHashRoute() {
   const [hash, setHash] = useState(() => window.location.hash || '#/')
@@ -133,7 +134,7 @@ export function PageHero({ kicker, title, children, image }: { kicker: string; t
     <section className="bg-navy-deep px-2 pt-16 pb-2 md:px-3 md:pt-24">
       <div className="relative overflow-hidden rounded-3xl bg-navy text-white">
         {image && (
-          <div className="absolute inset-y-0 right-0 hidden w-[44%] md:block">
+          <div className="absolute inset-y-0 right-0 hidden w-[44%] overflow-hidden md:block">
             <img src={image} alt="" className="kenburns h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/40 to-transparent" />
           </div>
@@ -199,32 +200,21 @@ export function ScrollText({ parts, className = '' }: { parts: [string, boolean?
 
 export function ContactCta({ title = 'Tell us about your site. We will plan the rest.' }: { title?: string }) {
   return (
-    <section className="relative overflow-hidden bg-lime">
-      <Container className="relative grid items-center gap-8 py-14 md:grid-cols-[1fr_auto] md:py-24">
-        <div>
-          <p className="kicker text-navy/70">Get in touch</p>
-          <h2 className={`mt-4 max-w-xl text-navy ${h2Class}`}>{title}</h2>
-          <Button variant="navy" className="mt-7" href="#/contact">
-            Contact us
-          </Button>
+    <section className="bg-paper py-10 md:py-16">
+      <Container>
+        <div className="grid overflow-hidden rounded-2xl bg-lime md:grid-cols-[1.15fr_0.85fr]">
+          <div className="flex flex-col items-start justify-center px-6 py-10 sm:px-10 md:px-12 md:py-14 lg:px-16">
+            <p className="kicker text-navy/70">Get in touch</p>
+            <h2 className={`mt-4 max-w-2xl text-navy ${h2Class}`}>{title}</h2>
+            <Button variant="navy" className="mt-7" href="#/contact">
+              Contact us
+            </Button>
+          </div>
+          <div className="relative hidden min-h-64 overflow-hidden bg-navy md:block">
+            <img src={img.crew} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+            <div aria-hidden className="absolute inset-0 bg-navy/15" />
+          </div>
         </div>
-        <a
-          href="#/contact"
-          aria-label="Contact us"
-          className="group relative hidden h-32 w-32 place-items-center rounded-full bg-navy text-lime transition-transform duration-500 hover:scale-105 md:grid"
-        >
-          <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full" aria-hidden>
-            <defs>
-              <path id="cta-circle" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0" />
-            </defs>
-            <text className="fill-current font-display text-[0.9375rem] font-semibold tracking-[0.32em] uppercase">
-              <textPath href="#cta-circle">Contact us · Available 24/7 ·</textPath>
-            </text>
-          </svg>
-          <span className="font-display text-2xl transition-transform duration-300 group-hover:-rotate-45" aria-hidden>
-            →
-          </span>
-        </a>
       </Container>
     </section>
   )
