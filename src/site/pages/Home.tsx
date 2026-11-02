@@ -41,7 +41,7 @@ function Hero() {
   return (
     <section
       aria-label="Introduction"
-      className="relative isolate flex min-h-[600px] flex-col overflow-hidden bg-navy-deep text-white md:h-[100svh] md:max-h-[1240px] md:min-h-[640px]"
+      className="homepage-hero relative isolate flex min-h-[600px] flex-col overflow-hidden bg-navy-deep text-white md:h-[100svh] md:max-h-[1240px] md:min-h-[640px]"
     >
       <div className="hero-reveal absolute inset-0 -z-20">
         {slides.map((s, i) => (
@@ -74,7 +74,7 @@ function Hero() {
         </div>
       </Container>
 
-      <Container className="flex flex-1 flex-col pt-24 md:pt-32">
+      <Container className="hero-content flex flex-1 flex-col pt-24 md:pt-32">
         <div className="flex items-start justify-between gap-6" style={{ animation: 'fade .8s 1.1s ease both' }}>
           <Kicker light>Dayenu · Road & Environment Cleaning Service PLC</Kicker>
           <p aria-live="polite" className="hidden text-right font-display text-xs text-white/70 md:block">
@@ -85,15 +85,15 @@ function Hero() {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-1 flex-col justify-end pb-8 md:mt-8 md:pb-10">
-          <h1 className="text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]">
+        <div className="hero-main mt-10 flex flex-1 flex-col justify-end pb-8 md:mt-8 md:pb-10">
+          <h1 className="hero-heading text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]">
             <span className="block overflow-hidden pb-[0.06em]">
-              <span className="rise block xl:text-[138px] xl:tracking-[-5px]" style={{ animationDelay: '.8s' }}>
+              <span className="rise block" style={{ animationDelay: '.8s' }}>
                 Cleaner streets<span className="text-lime">.</span>
               </span>
             </span>
             <span className="block overflow-hidden pb-[0.12em]">
-              <span className="rise block xl:text-[138px] xl:tracking-[-4px]" style={{ animationDelay: '.95s' }}>
+              <span className="rise block" style={{ animationDelay: '.95s' }}>
                 Safer{' '}
                 <span className="relative inline-block text-lime">
                   cities.
@@ -105,19 +105,19 @@ function Hero() {
             </span>
           </h1>
 
-          <div className="mt-7 grid items-end gap-8 md:grid-cols-12" style={{ animation: 'fade .9s 1.3s ease both' }}>
+          <div className="hero-details mt-7 grid items-end gap-8 md:grid-cols-12" style={{ animation: 'fade .9s 1.3s ease both' }}>
             <div className="md:col-span-7 lg:col-span-6">
-              <p className="max-w-[36rem] leading-relaxed text-white/80 md:text-xl">
+              <p className="hero-description max-w-[36rem] leading-relaxed text-white/80 md:text-xl">
                 Road cleaning, environmental sanitation, facility cleaning and public-space maintenance across Addis Ababa. Planned, supervised and reported,{' '}
                 <span className="font-semibold text-lime">around the clock.</span>
               </p>
-              <div className="mt-6 flex flex-wrap gap-2.5">
+              <div className="hero-actions mt-6 flex flex-wrap gap-2.5">
                 <Button href="#/contact">Contact us</Button>
                 <Button variant="ghost-light" href="#/services">
                   Explore our services
                 </Button>
               </div>
-              <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[0.8125rem] text-white/80">
+              <ul className="hero-highlights mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[0.8125rem] text-white/80">
                 {['Available 24/7', 'Supervised every shift', 'Measurable reporting'].map((t) => (
                   <li key={t} className="flex items-center gap-2">
                     <span className="grid h-4 w-4 place-items-center rounded-full bg-lime text-navy">
@@ -142,7 +142,7 @@ function Hero() {
                 role="tab"
                 aria-selected={i === active}
                 onClick={() => setActive(i)}
-                className={`group relative flex flex-col items-start justify-start py-4 pr-3 text-left transition-opacity md:py-5 md:pr-8 ${i ? 'pl-3 md:pl-6' : ''} ${
+                className={`hero-tab group relative flex flex-col items-start justify-start py-4 pr-3 text-left transition-opacity md:py-5 md:pr-8 ${i ? 'pl-3 md:pl-6' : ''} ${
                   i === active ? 'opacity-100' : 'opacity-55 hover:opacity-90'
                 }`}
               >
