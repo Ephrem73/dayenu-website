@@ -1,0 +1,246 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Anton:Regular';
+  src: url('https://static.figma.com/font/Anton-Regular_2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bebas Neue:Regular';
+  src: url('https://static.figma.com/font/BebasNeue-Regular_1') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat:Bold';
+  src: url('https://static.figma.com/font/Montserrat_wght__2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins:Bold';
+  src: url('https://static.figma.com/font/Poppins-Bold_6') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins:SemiBold';
+  src: url('https://static.figma.com/font/Poppins-SemiBold_6') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* Dayenu: same palette and type as the live site, on a human-scale 16px root */
+@theme {
+  --color-lime: #b6e48c;
+  --color-lime-soft: #e8f6d9;
+  --color-navy: #101d49;
+  --color-navy-deep: #0a1332;
+  --color-paper: #f6f8f2;
+  --color-moss: #467526;
+  --font-display:
+    'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk Display', 'NHaasGroteskDSPro', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif;
+  --font-body: Helvetica, 'Helvetica Neue', Arial, sans-serif;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1680px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-navy);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  color: var(--color-navy);
+  background: var(--color-lime);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-lime);
+  outline-offset: 3px;
+}
+
+main :focus-visible {
+  outline-color: var(--color-navy);
+}
+
+.kicker {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.kenburns {
+  animation: kb 22s ease-in-out infinite alternate;
+}
+.spin-slow {
+  animation: spin 18s linear infinite;
+}
+.wipe-in {
+  transform-origin: 0;
+  animation: wipe 1.1s cubic-bezier(0.65, 0, 0.35, 1) 0.3s both;
+}
+.hero-reveal {
+  animation: reveal-x 1.5s cubic-bezier(0.77, 0, 0.18, 1) both;
+}
+.hero-blade {
+  animation: blade 1.5s cubic-bezier(0.77, 0, 0.18, 1) both;
+}
+.rise {
+  animation: rise 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.draw {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420px;
+  animation: draw 1.2s cubic-bezier(0.6, 0, 0.2, 1) 1.6s forwards;
+}
+.tab-progress {
+  transform-origin: 0;
+  animation: grow-x linear both;
+}
+.fade-in {
+  animation: fade 0.7s ease both;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes wipe {
+  0% {
+    transform: scaleX(0);
+  }
+}
+@keyframes kb {
+  0% {
+    transform: scale(1.04) translate(0);
+  }
+  to {
+    transform: scale(1.14) translate(-2%, -2%);
+  }
+}
+@keyframes fade {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes reveal-x {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes blade {
+  0% {
+    opacity: 1;
+    left: 0;
+  }
+  92% {
+    opacity: 1;
+    left: 100%;
+  }
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+@keyframes rise {
+  0% {
+    transform: translateY(108%);
+  }
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes grow-x {
+  0% {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .kenburns,
+  .spin-slow,
+  .wipe-in,
+  .hero-reveal,
+  .rise,
+  .fade-in {
+    animation: none;
+  }
+  .hero-blade {
+    display: none;
+  }
+  .draw {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
