@@ -17,6 +17,8 @@ const nextSteps = [
 ]
 
 const empty = { topic: '', name: '', organization: '', email: '', phone: '', via: 'Email', message: '' }
+// Change this address when Dayenu has its own inbox. The new address must activate the form.
+const contactInbox = 'ephrem@jirtuu.io'
 
 const inputClass = (error?: string | false) =>
   `mt-1.5 h-11 w-full rounded-lg border bg-white px-3.5 text-[0.9375rem] outline-none transition placeholder:text-navy/35 focus:border-navy focus:ring-4 focus:ring-lime ${
@@ -39,6 +41,8 @@ export default function Contact({ service }: { service?: string | null }) {
   const [form, setForm] = useState({ ...empty, topic: services.find((s) => s.id === service)?.name ?? '' })
   const [tried, setTried] = useState(false)
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const set = (key: keyof typeof form, value: string) => setForm((f) => ({ ...f, [key]: value }))
   const errors = {
     name: !form.name.trim() && 'Please add your name',
@@ -114,9 +118,8 @@ export default function Contact({ service }: { service?: string | null }) {
                   </span>
                   <h2 className={`mt-6 ${h2Class}`}>Thank you, {form.name.trim().split(' ')[0]}.</h2>
                   <p className="mt-3 max-w-md text-navy/70">
-                    Your message is ready for our team. We will reply by {form.via.toLowerCase()}.
+                    Your message was submitted. Our team will follow up using your preferred contact method.
                   </p>
-                  <p className="mt-5 max-w-md text-xs text-navy/45">Note: this form is not yet connected to an inbox. Connect it to email or a CRM before launch.</p>
                   <div className="mt-8 flex flex-wrap gap-2.5">
                     <Button variant="navy" href="#/services">
                       Browse services
@@ -136,10 +139,26 @@ export default function Contact({ service }: { service?: string | null }) {
               ) : (
                 <form
                   noValidate
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault()
                     setTried(true)
-                    if (valid) setSent(true)
+                    if (!valid || sending) return
+                    setSending(true)
+                    setSubmitError('')
+                    try {
+                      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(contactInbox)}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                        body: JSON.stringify({ ...form, _subject: 'New Dayenu website enquiry', _replyto: form.email }),
+                      })
+                      const result = await response.json()
+                      if (!response.ok || String(result.success) !== 'true') throw new Error('Submission failed')
+                      setSent(true)
+                    } catch {
+                      setSubmitError('We could not send your message. Please try again or call us using the number shown.')
+                    } finally {
+                      setSending(false)
+                    }
                   }}
                 >
                   <Kicker>Send a message</Kicker>
@@ -219,12 +238,13 @@ export default function Contact({ service }: { service?: string | null }) {
                     </div>
                   </div>
                   <div className="mt-7 flex flex-col-reverse items-start justify-between gap-4 border-t border-navy/10 pt-6 sm:flex-row sm:items-center">
-                    <p className="max-w-xs text-xs text-navy/50">We only use your details to reply to this message.</p>
+                    <div><p className="max-w-xs text-xs text-navy/50">We only use your details to reply to this message.</p>{submitError && <p role="alert" className="mt-2 text-sm text-red-700">{submitError}</p>}</div>
                     <button
                       type="submit"
+                      disabled={sending}
                       className="group inline-flex h-11 items-center gap-2 rounded-full bg-lime px-5 font-display text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
                     >
-                      Send message
+                      {sending ? 'Sending…' : 'Send message'}
                       <Icon name="send" size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </button>
                   </div>
