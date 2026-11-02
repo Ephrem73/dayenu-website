@@ -22,7 +22,7 @@ Deploy the generated `dist/` folder to a static host. The application uses React
 
 ## Before public launch
 
-- Connect the contact form to an approved inbox or service. It currently validates locally and displays a demonstration confirmation; **messages are not delivered**.
+- The contact form submits through FormSubmit to the temporary inbox `ephrem@jirtuu.io` configured in `src/site/pages/Contact.tsx`. Activate the address using FormSubmit’s verification email and verify end-to-end delivery before launch. To change the inbox, update `contactInbox` and activate the new address. Form submissions are processed by FormSubmit.
 - Confirm company details, article content, and image rights. Photography loads from Unsplash and fonts load from Figma.
 - Search indexing is currently disabled in `.figma/make/site.json`, as in the original export. Enable it when the production site is ready.
 - Add the intended domain in the selected hosting service and apply the DNS records it provides. No domain has been configured yet.
