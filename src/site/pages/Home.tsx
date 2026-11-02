@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getBlogPosts, getStrapiMediaUrl, calculateReadingTime, FALLBACK_IMAGE } from '../../api/strapi'
+import type { BlogPost } from '../../api/strapi.types'
 import { BeforeAfter } from '../BeforeAfter'
 import { img, posts, services } from '../data'
 import { Icon, type IconName } from '../Icon'
@@ -501,6 +503,27 @@ function AboutTeaser() {
 }
 
 function Journal() {
+  const [livePosts, setLivePosts] = useState<BlogPost[]>([])
+
+  useEffect(() => {
+    getBlogPosts()
+      .then((data) => {
+        if (data && data.length > 0) setLivePosts(data.slice(0, 3))
+      })
+      .catch(() => {})
+  }, [])
+
+  const displayItems =
+    livePosts.length > 0
+      ? livePosts.map((p) => ({
+          slug: p.slug,
+          title: p.Title || p.title || 'Untitled Article',
+          excerpt: p.excerpt,
+          tag: p.tag || 'Insights',
+          read: calculateReadingTime(p.content),
+          image: getStrapiMediaUrl(p.coverImage, 'medium'),
+        }))
+      : posts.slice(0, 3)
   return (
     <section className="bg-white py-16 md:py-28">
       <Container>
@@ -511,11 +534,18 @@ function Journal() {
           </a>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {posts.slice(0, 3).map((p, i) => (
+          {displayItems.map((p, i) => (
             <Reveal key={p.slug} delay={i * 100}>
               <a href={`#/blog/${p.slug}`} className="group block">
                 <div className="aspect-[3/2] overflow-hidden rounded-2xl bg-navy/10">
-                  <img src={p.image} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img
+                    src={p.image}
+                    alt=""
+                    onError={(e) => {
+                      e.currentTarget.src = FALLBACK_IMAGE
+                    }}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
                 </div>
                 <p className="kicker mt-4 flex items-center gap-2 text-navy/55">
                   <span className="h-1.5 w-1.5 rounded-full bg-lime" />

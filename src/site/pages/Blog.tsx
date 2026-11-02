@@ -1,11 +1,106 @@
 import { useEffect, useState } from 'react'
-import { posts } from '../data'
-import { Container, ContactCta, Kicker, PageHero } from '../ui'
+import {
+  calculateReadingTime,
+  FALLBACK_IMAGE,
+  formatPostDate,
+  getBlogPostBySlug,
+  getBlogPosts,
+  getStrapiMediaUrl,
+} from '../../api/strapi'
+import type { BlogPost } from '../../api/strapi.types'
+import { RichTextRenderer } from '../../components/RichTextRenderer'
+import { ContactCta, Container, Kicker, PageHero } from '../ui'
+
+function ListingSkeleton() {
+  return (
+    <div className="grid animate-pulse gap-x-6 gap-y-10 md:grid-cols-6" aria-label="Loading articles">
+      <div className="md:col-span-4">
+        <div className="aspect-[16/9] rounded-2xl bg-navy/10" />
+        <div className="mt-4 h-4 w-36 rounded bg-navy/10" />
+        <div className="mt-2 h-7 w-3/4 rounded bg-navy/10" />
+        <div className="mt-2 h-4 w-full rounded bg-navy/10" />
+        <div className="mt-1 h-4 w-2/3 rounded bg-navy/10" />
+      </div>
+      <div className="md:col-span-2">
+        <div className="aspect-[3/2] rounded-2xl bg-navy/10" />
+        <div className="mt-4 h-4 w-28 rounded bg-navy/10" />
+        <div className="mt-2 h-6 w-4/5 rounded bg-navy/10" />
+        <div className="mt-2 h-4 w-full rounded bg-navy/10" />
+      </div>
+      <div className="md:col-span-3 lg:col-span-2">
+        <div className="aspect-[3/2] rounded-2xl bg-navy/10" />
+        <div className="mt-4 h-4 w-24 rounded bg-navy/10" />
+        <div className="mt-2 h-5 w-3/4 rounded bg-navy/10" />
+        <div className="mt-2 h-4 w-5/6 rounded bg-navy/10" />
+      </div>
+      <div className="md:col-span-3 lg:col-span-2">
+        <div className="aspect-[3/2] rounded-2xl bg-navy/10" />
+        <div className="mt-4 h-4 w-24 rounded bg-navy/10" />
+        <div className="mt-2 h-5 w-3/4 rounded bg-navy/10" />
+        <div className="mt-2 h-4 w-5/6 rounded bg-navy/10" />
+      </div>
+      <div className="md:col-span-3 lg:col-span-2">
+        <div className="aspect-[3/2] rounded-2xl bg-navy/10" />
+        <div className="mt-4 h-4 w-24 rounded bg-navy/10" />
+        <div className="mt-2 h-5 w-3/4 rounded bg-navy/10" />
+        <div className="mt-2 h-4 w-5/6 rounded bg-navy/10" />
+      </div>
+    </div>
+  )
+}
+
+function ArticleSkeleton() {
+  return (
+    <article className="animate-pulse bg-white pt-28 md:pt-32" aria-label="Loading article">
+      <Container className="max-w-3xl">
+        <div className="h-4 w-24 rounded bg-navy/10" />
+        <div className="mt-6 h-4 w-44 rounded bg-navy/10" />
+        <div className="mt-4 h-10 w-4/5 rounded bg-navy/10" />
+        <div className="mt-2 h-10 w-3/5 rounded bg-navy/10" />
+        <div className="mt-4 h-5 w-full rounded bg-navy/10" />
+        <div className="mt-1 h-5 w-5/6 rounded bg-navy/10" />
+      </Container>
+      <Container className="mt-10 max-w-5xl">
+        <div className="aspect-[21/9] rounded-2xl bg-navy/10" />
+      </Container>
+      <Container className="max-w-[44rem] space-y-4 py-12">
+        <div className="h-4 w-full rounded bg-navy/10" />
+        <div className="h-4 w-11/12 rounded bg-navy/10" />
+        <div className="h-4 w-4/5 rounded bg-navy/10" />
+        <div className="h-4 w-full rounded bg-navy/10" />
+        <div className="h-4 w-3/4 rounded bg-navy/10" />
+      </Container>
+    </article>
+  )
+}
 
 export function Blog() {
-  const tags = ['All', ...Array.from(new Set(posts.map((p) => p.tag)))]
-  const [tag, setTag] = useState('All')
-  const list = posts.filter((p) => tag === 'All' || p.tag === tag)
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [selectedTag, setSelectedTag] = useState('All')
+
+  const loadPosts = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const data = await getBlogPosts()
+      setPosts(data)
+    } catch (err) {
+      console.error('Failed to load blog posts from Strapi:', err)
+      setError(err instanceof Error ? err.message : 'Unable to connect to CMS. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadPosts()
+  }, [])
+
+  const tags = ['All', ...Array.from(new Set(posts.map((p) => p.tag || 'Insights')))]
+  const filteredPosts = posts.filter((p) => selectedTag === 'All' || (p.tag || 'Insights') === selectedTag)
+
   return (
     <>
       <PageHero
@@ -18,52 +113,133 @@ export function Blog() {
       >
         Notes on how we plan, deliver and report road, environmental and facility services, safely and responsibly.
       </PageHero>
+
       <section className="bg-white py-12 md:py-24">
         <Container>
-          <div className="mb-8 flex flex-wrap items-center gap-1.5" role="group" aria-label="Filter by topic">
-            <span className="kicker mr-2 text-navy/50">Topics</span>
-            {tags.map((t) => (
-              <button
-                key={t}
-                aria-pressed={t === tag}
-                onClick={() => setTag(t)}
-                className={`h-8 rounded-full border px-3.5 font-display text-[0.8125rem] font-semibold transition ${
-                  t === tag ? 'border-navy bg-navy text-white' : 'border-navy/25 hover:border-navy'
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <div className="grid gap-x-6 gap-y-10 md:grid-cols-6">
-            {list.map((p, i) => (
-              <a
-                key={p.slug}
-                href={`#/blog/${p.slug}`}
-                className={`group ${i === 0 ? 'md:col-span-4' : i === 1 ? 'md:col-span-2' : 'md:col-span-3 lg:col-span-2'}`}
-              >
-                <div className={`overflow-hidden rounded-2xl bg-navy/10 ${i === 0 ? 'aspect-[16/9]' : 'aspect-[3/2]'}`}>
-                  <img src={p.image} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                </div>
-                <p className="kicker mt-4 text-navy/60">
-                  {p.tag} · {p.read} · {p.date}
-                </p>
-                <h2
-                  className={`mt-1.5 font-bold leading-snug decoration-lime decoration-[3px] underline-offset-4 group-hover:underline ${
-                    i === 0 ? 'text-2xl md:text-[1.75rem]' : 'text-lg'
+          {/* Topic Filters */}
+          {!loading && !error && tags.length > 1 && (
+            <div className="mb-8 flex flex-wrap items-center gap-1.5" role="group" aria-label="Filter by topic">
+              <span className="kicker mr-2 text-navy/50">Topics</span>
+              {tags.map((t) => (
+                <button
+                  key={t}
+                  aria-pressed={t === selectedTag}
+                  onClick={() => setSelectedTag(t)}
+                  className={`h-8 rounded-full border px-3.5 font-display text-[0.8125rem] font-semibold transition ${
+                    t === selectedTag ? 'border-navy bg-navy text-white' : 'border-navy/25 hover:border-navy'
                   }`}
                 >
-                  {p.title}
-                </h2>
-                <p className="mt-2 text-sm text-navy/65">{p.excerpt}</p>
-                <span className="mt-3 inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold">
-                  Read <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </span>
-              </a>
-            ))}
-          </div>
+                  {t}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Loading State */}
+          {loading && <ListingSkeleton />}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="my-10 rounded-2xl border border-red-200 bg-red-50/70 p-8 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+              </div>
+              <h3 className="mt-4 font-display text-lg font-bold text-navy">Unable to load journal entries</h3>
+              <p className="mt-2 text-sm text-navy/70 max-w-md mx-auto">{error}</p>
+              <button
+                onClick={loadPosts}
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-navy px-6 py-2.5 font-display text-sm font-semibold text-white transition hover:bg-navy-deep"
+              >
+                <span>Retry</span>
+                <span aria-hidden>↻</span>
+              </button>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!loading && !error && filteredPosts.length === 0 && (
+            <div className="my-12 rounded-2xl border border-navy/10 bg-paper py-16 text-center">
+              <h3 className="font-display text-xl font-bold text-navy">No articles found</h3>
+              <p className="mt-2 text-sm text-navy/60">
+                {selectedTag === 'All'
+                  ? 'No journal entries have been published yet.'
+                  : `No articles found under topic "${selectedTag}".`}
+              </p>
+              {selectedTag !== 'All' && (
+                <button
+                  onClick={() => setSelectedTag('All')}
+                  className="mt-4 font-display text-sm font-semibold text-navy underline decoration-lime decoration-2 underline-offset-4"
+                >
+                  View all articles
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Posts Grid */}
+          {!loading && !error && filteredPosts.length > 0 && (
+            <div className="grid gap-x-6 gap-y-10 md:grid-cols-6">
+              {filteredPosts.map((p, i) => {
+                const coverUrl = getStrapiMediaUrl(p.coverImage, i === 0 ? 'large' : 'medium')
+                const displayTitle = p.Title || p.title || 'Untitled Article'
+                const displayDate = formatPostDate(p.publishedDate || p.publishedAt)
+                const readingTime = calculateReadingTime(p.content)
+                const tag = p.tag || 'Insights'
+
+                return (
+                  <a
+                    key={p.documentId || p.slug || p.id}
+                    href={`#/blog/${p.slug}`}
+                    className={`group ${
+                      i === 0 ? 'md:col-span-4' : i === 1 ? 'md:col-span-2' : 'md:col-span-3 lg:col-span-2'
+                    }`}
+                  >
+                    <div
+                      className={`overflow-hidden rounded-2xl bg-navy/10 ${
+                        i === 0 ? 'aspect-[16/9]' : 'aspect-[3/2]'
+                      }`}
+                    >
+                      <img
+                        src={coverUrl}
+                        alt={p.coverImage?.alternativeText || displayTitle}
+                        onError={(e) => {
+                          e.currentTarget.src = FALLBACK_IMAGE
+                        }}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <p className="kicker mt-4 text-navy/60">
+                      {tag} · {readingTime} {displayDate ? `· ${displayDate}` : ''}
+                    </p>
+                    <h2
+                      className={`mt-1.5 font-bold leading-snug decoration-lime decoration-[3px] underline-offset-4 group-hover:underline ${
+                        i === 0 ? 'text-2xl md:text-[1.75rem]' : 'text-lg'
+                      }`}
+                    >
+                      {displayTitle}
+                    </h2>
+                    {p.excerpt && <p className="mt-2 text-sm text-navy/65 line-clamp-3">{p.excerpt}</p>}
+                    <span className="mt-3 inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-navy">
+                      Read{' '}
+                      <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
+                        →
+                      </span>
+                    </span>
+                  </a>
+                )
+              })}
+            </div>
+          )}
         </Container>
       </section>
+
       <ContactCta />
     </>
   )
@@ -80,72 +256,164 @@ function ReadingProgress() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-  return <div aria-hidden className="fixed top-0 left-0 z-50 h-1 bg-lime" style={{ width: `${p * 100}%` }} />
+  return <div aria-hidden className="fixed top-0 left-0 z-50 h-1 bg-lime transition-all" style={{ width: `${p * 100}%` }} />
 }
 
 export function Article({ slug }: { slug: string }) {
-  const post = posts.find((p) => p.slug === slug)
-  if (!post)
+  const decodedSlug = decodeURIComponent(slug).replace(/\/$/, '')
+  const [post, setPost] = useState<BlogPost | null>(null)
+  const [morePosts, setMorePosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const loadArticle = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const [fetchedPost, allPosts] = await Promise.all([
+        getBlogPostBySlug(decodedSlug),
+        getBlogPosts().catch(() => [] as BlogPost[]),
+      ])
+
+      setPost(fetchedPost)
+      setMorePosts(allPosts.filter((p) => p.slug !== decodedSlug).slice(0, 2))
+    } catch (err) {
+      console.error('Failed to load article:', err)
+      setError(err instanceof Error ? err.message : 'Failed to fetch article')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadArticle()
+  }, [decodedSlug])
+
+  if (loading) {
+    return (
+      <>
+        <ReadingProgress />
+        <ArticleSkeleton />
+      </>
+    )
+  }
+
+  if (error || !post) {
     return (
       <Container className="py-40">
-        <h1 className="text-4xl font-extrabold">Article not found.</h1>
-        <a href="#/blog" className="mt-5 inline-block underline">
-          Back to journal
-        </a>
+        <div className="max-w-xl">
+          <span className="kicker text-navy/60">Journal</span>
+          <h1 className="mt-3 text-4xl font-extrabold text-navy">
+            {error ? 'Failed to load article' : 'Article not found.'}
+          </h1>
+          <p className="mt-4 text-navy/70">
+            {error ||
+              `We couldn't find an article matching "${decodedSlug}". It may have been moved or unpublished.`}
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <a
+              href="#/blog"
+              className="inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 font-display text-sm font-semibold text-white transition hover:bg-navy-deep"
+            >
+              ← Back to journal
+            </a>
+            {error && (
+              <button
+                onClick={loadArticle}
+                className="inline-flex items-center gap-2 rounded-full border border-navy/20 px-5 py-2.5 font-display text-sm font-semibold text-navy transition hover:border-navy"
+              >
+                Retry
+              </button>
+            )}
+          </div>
+        </div>
       </Container>
     )
-  const more = posts.filter((p) => p.slug !== slug).slice(0, 2)
+  }
+
+  const coverUrl = getStrapiMediaUrl(post.coverImage, 'large')
+  const displayTitle = post.Title || post.title || 'Untitled Article'
+  const displayDate = formatPostDate(post.publishedDate || post.publishedAt)
+  const readingTime = calculateReadingTime(post.content)
+  const tag = post.tag || 'Insights'
+
   return (
     <>
       <ReadingProgress />
       <article className="bg-white pt-28 md:pt-32">
         <Container className="max-w-3xl">
-          <a href="#/blog" className="font-display text-[0.8125rem] font-semibold text-navy/60 hover:text-navy">
+          <a
+            href="#/blog"
+            className="inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-navy/60 transition-colors hover:text-navy"
+          >
             ← Journal
           </a>
           <div className="mt-6">
             <Kicker>
-              {post.tag} · {post.read} · {post.date}
+              {tag} · {readingTime} {displayDate ? `· ${displayDate}` : ''}
             </Kicker>
           </div>
-          <h1 className="mt-4 text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] md:text-[2.75rem]">{post.title}</h1>
-          <p className="mt-4 text-lg text-navy/70">{post.excerpt}</p>
+          <h1 className="mt-4 text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-navy md:text-[2.75rem]">
+            {displayTitle}
+          </h1>
+          {post.excerpt && <p className="mt-4 text-lg text-navy/70 leading-relaxed">{post.excerpt}</p>}
         </Container>
-        <Container className="mt-10 max-w-5xl">
-          <div className="aspect-[21/9] overflow-hidden rounded-2xl bg-navy/10">
-            <img src={post.image} alt="" className="h-full w-full object-cover" />
-          </div>
-        </Container>
-        <Container className="max-w-[44rem] space-y-5 py-12 text-[1.0625rem] leading-[1.75] text-navy/85">
-          {post.body.map((para, i) => (
-            <p
-              key={i}
-              className={
-                i === 0
-                  ? 'first-letter:float-left first-letter:mr-2.5 first-letter:font-display first-letter:text-5xl first-letter:leading-[0.9] first-letter:font-extrabold'
-                  : ''
-              }
-            >
-              {para}
-            </p>
-          ))}
+
+        {coverUrl && (
+          <Container className="mt-10 max-w-5xl">
+            <div className="aspect-[21/9] overflow-hidden rounded-2xl bg-navy/10 shadow-sm">
+              <img
+                src={coverUrl}
+                alt={post.coverImage?.alternativeText || displayTitle}
+                onError={(e) => {
+                  e.currentTarget.src = FALLBACK_IMAGE
+                }}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            {post.coverImage?.caption && (
+              <p className="mt-2 text-center text-xs text-navy/50 italic">{post.coverImage.caption}</p>
+            )}
+          </Container>
+        )}
+
+        <Container className="max-w-[44rem] py-12">
+          <RichTextRenderer content={post.content} />
         </Container>
       </article>
-      <section className="bg-paper py-14">
-        <Container>
-          <h2 className="mb-7 text-2xl font-extrabold">Keep reading</h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            {more.map((p) => (
-              <a key={p.slug} href={`#/blog/${p.slug}`} className="group">
-                <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-navy/10">
-                  <img src={p.image} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                </div>
-                <h3 className="mt-3 text-lg font-bold group-hover:underline">{p.title}</h3>
-              </a>
-            ))}
-          </div>
-        </Container>
-      </section>
+
+      {morePosts.length > 0 && (
+        <section className="bg-paper py-14">
+          <Container>
+            <h2 className="mb-7 text-2xl font-extrabold text-navy">Keep reading</h2>
+            <div className="grid gap-6 md:grid-cols-2">
+              {morePosts.map((p) => {
+                const moreCoverUrl = getStrapiMediaUrl(p.coverImage, 'medium')
+                const moreTitle = p.Title || p.title || 'Untitled'
+                return (
+                  <a key={p.slug} href={`#/blog/${p.slug}`} className="group">
+                    <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-navy/10">
+                      <img
+                        src={moreCoverUrl}
+                        alt={p.coverImage?.alternativeText || moreTitle}
+                        onError={(e) => {
+                          e.currentTarget.src = FALLBACK_IMAGE
+                        }}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <p className="kicker mt-3 text-xs text-navy/60">
+                      {p.tag || 'Insights'} · {calculateReadingTime(p.content)}
+                    </p>
+                    <h3 className="mt-1 text-lg font-bold text-navy group-hover:underline">{moreTitle}</h3>
+                  </a>
+                )
+              })}
+            </div>
+          </Container>
+        </section>
+      )}
+
       <ContactCta />
     </>
   )
