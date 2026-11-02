@@ -1,0 +1,6 @@
+{
+  "title": "Dayenu RECS PLC",
+  "description": "Dayenu Road and Environment Cleaning Service PLC — road cleaning, facility care, and environmental services in Addis Ababa, Ethiopia.",
+  "robots": { "index": false },
+  "accessibility": { "addBypassLinks": false, "ignoreReducedMotion": false }
+}
