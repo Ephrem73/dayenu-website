@@ -9,7 +9,6 @@ const channels: [IconName, string, string, string, string?, boolean?][] = [
   ['telegram', 'Telegram', company.telegram, 'Official channel and operations desk', company.telegramUrl],
   ['pin', 'Head office', company.office, 'Ethiopia'],
   ['clock', 'Availability', 'Available 24/7', 'Planned operations and urgent support'],
-  ['briefcase', 'Capability Statement', 'Download Official PDF', 'Machinery inventory & compliance', company.capabilityPdf, true],
 ]
 
 const nextSteps = [

@@ -214,13 +214,6 @@ export function ContactCta({ title = 'Tell us about your site. We will plan the 
             <Button variant="ghost" href="#/contact?topic=Pilot" className="border-navy/30 text-navy hover:bg-navy/10">
               Start a pilot area
             </Button>
-            <a
-              href={company.capabilityPdf}
-              download
-              className="inline-flex items-center gap-1.5 rounded-xl border border-navy/20 bg-white/70 px-4 py-2.5 text-xs font-bold text-navy shadow-sm transition hover:bg-white active:scale-95"
-            >
-              <Icon name="download" size={13} /> Capability Statement (PDF)
-            </a>
           </div>
         </div>
         <a

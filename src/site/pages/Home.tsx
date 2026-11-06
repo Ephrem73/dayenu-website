@@ -105,13 +105,6 @@ function Hero() {
                 <Button variant="ghost-light" href="#/contact?topic=Pilot">
                   Start a pilot area
                 </Button>
-                <a
-                  href={company.capabilityPdf}
-                  download
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs font-bold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95"
-                >
-                  <Icon name="download" size={13} /> Capability Statement (PDF)
-                </a>
               </div>
             </div>
             <div className="hidden justify-end md:col-span-5 md:flex lg:col-span-6">
@@ -232,14 +225,6 @@ function ClientLogos() {
             <p className="kicker !text-[0.6875rem] text-navy/55">Trusted by public & institutional partners</p>
             <h3 className="mt-1 text-lg font-bold text-navy md:text-xl">Built for municipal, corridor & institutional accountability</h3>
           </div>
-          <a
-            href={company.capabilityPdf}
-            download
-            className="inline-flex items-center gap-2 rounded-xl border border-navy/15 bg-white px-4 py-2.5 text-xs font-bold text-navy shadow-sm transition hover:border-navy hover:bg-lime/20"
-          >
-            <Icon name="download" size={14} className="text-moss" />
-            Download Capability Statement (PDF)
-          </a>
         </div>
         <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {partners.map((p) => (
@@ -490,14 +475,6 @@ function HowItWorks() {
           <Button variant="navy" href="#/contact">
             Request a site assessment
           </Button>
-          <a
-            href={company.capabilityPdf}
-            download
-            className="inline-flex items-center gap-2 rounded-xl border border-navy/20 bg-white px-5 py-3 text-sm font-bold text-navy transition hover:bg-lime/20"
-          >
-            <Icon name="download" size={15} className="text-moss" />
-            Download Capability Statement (PDF)
-          </a>
         </div>
       </Container>
     </section>
