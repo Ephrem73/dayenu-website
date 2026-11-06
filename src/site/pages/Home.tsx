@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { getBlogPosts, getStrapiMediaUrl, calculateReadingTime, FALLBACK_IMAGE } from '../../api/strapi'
+import { getBlogPosts, getStrapiMediaUrl, calculateReadingTime, formatPostDate, FALLBACK_IMAGE } from '../../api/strapi'
 import type { BlogPost } from '../../api/strapi.types'
 import { BeforeAfter } from '../BeforeAfter'
-import { img, posts, services } from '../data'
+import { company, img, posts, services } from '../data'
 import { Icon, type IconName } from '../Icon'
 import { Button, Container, ContactCta, Kicker, Reveal, ScrollText, SectionHead, Star, h2Class } from '../ui'
 
@@ -41,7 +41,7 @@ function Hero() {
   return (
     <section
       aria-label="Introduction"
-      className="homepage-hero relative isolate flex min-h-[600px] flex-col overflow-hidden bg-navy-deep text-white md:h-[100svh] md:max-h-[1240px] md:min-h-[640px]"
+      className="homepage-hero relative isolate flex min-h-[600px] flex-col overflow-hidden bg-navy-deep text-white md:min-h-[100svh] md:h-auto lg:min-h-[100svh] lg:h-auto"
     >
       <div className="hero-reveal absolute inset-0 -z-20">
         {slides.map((s, i) => (
@@ -74,7 +74,7 @@ function Hero() {
         </div>
       </Container>
 
-      <Container className="hero-content flex flex-1 flex-col pt-24 md:pt-32">
+      <Container className="hero-content flex flex-1 flex-col pt-16 md:pt-20 lg:pt-22">
         <div className="flex items-start justify-between gap-6" style={{ animation: 'fade .8s 1.1s ease both' }}>
           <Kicker light>Dayenu · Road & Environment Cleaning Service PLC</Kicker>
           <p aria-live="polite" className="hidden text-right font-display text-xs text-white/70 md:block">
@@ -85,7 +85,7 @@ function Hero() {
           </p>
         </div>
 
-        <div className="hero-main mt-10 flex flex-1 flex-col justify-end pb-8 md:mt-8 md:pb-10">
+        <div className="hero-main mt-4 flex flex-1 flex-col justify-end pb-4 md:mt-5 md:pb-5">
           <h1 className="hero-heading text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]">
             <span className="block overflow-hidden pb-[0.06em]">
               <span className="rise block" style={{ animationDelay: '.8s' }}>
@@ -105,21 +105,15 @@ function Hero() {
             </span>
           </h1>
 
-          <div className="hero-details mt-7 grid items-end gap-8 md:grid-cols-12" style={{ animation: 'fade .9s 1.3s ease both' }}>
+          <div className="hero-details mt-4 grid items-end gap-5 md:grid-cols-12" style={{ animation: 'fade .9s 1.3s ease both' }}>
             <div className="md:col-span-7 lg:col-span-6">
               <p className="hero-description max-w-[36rem] leading-relaxed text-white/80 md:text-xl">
                 Road cleaning, environmental sanitation, facility cleaning and public-space maintenance across Addis Ababa. Planned, supervised and reported,{' '}
                 <span className="font-semibold text-lime">around the clock.</span>
               </p>
-              <div className="hero-actions mt-6 flex flex-wrap gap-2.5">
-                <Button href="#/contact">Contact us</Button>
-                <Button variant="ghost-light" href="#/services">
-                  Explore our services
-                </Button>
-              </div>
-              <ul className="hero-highlights mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[0.8125rem] text-white/80">
+              <ul className="hero-highlights mt-3 mb-3.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.8125rem] text-white/90">
                 {['Available 24/7', 'Supervised every shift', 'Measurable reporting'].map((t) => (
-                  <li key={t} className="flex items-center gap-2">
+                  <li key={t} className="flex items-center gap-2 font-medium">
                     <span className="grid h-4 w-4 place-items-center rounded-full bg-lime text-navy">
                       <Icon name="check" size={10} />
                     </span>
@@ -127,6 +121,19 @@ function Hero() {
                   </li>
                 ))}
               </ul>
+              <div className="hero-actions flex flex-wrap items-center gap-2.5">
+                <Button href="#/contact">Request a site assessment</Button>
+                <Button variant="ghost-light" href="#/contact?topic=Pilot">
+                  Start a pilot area
+                </Button>
+                <a
+                  href={company.capabilityPdf}
+                  download
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs font-bold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95"
+                >
+                  <Icon name="download" size={13} /> Capability Statement (PDF)
+                </a>
+              </div>
             </div>
             <div className="hidden justify-end md:col-span-5 md:flex lg:col-span-6">
               <Seal />
@@ -229,6 +236,54 @@ const sectors = [
   ['Hospitals, schools & commercial centres', img.campus, '#/services/facilities', 'Scheduled cleaning for clinics, schools, universities, commercial centres and hotels.'],
   ['NGOs & international organizations', img.shovel, '#/contact', 'Compound cleaning, community cleanup and environmental programs with transparent reporting.'],
 ]
+
+function ClientLogos() {
+  const partners = [
+    { name: 'Addis Ababa City Administration', type: 'Municipal Services' },
+    { name: 'Corridor Development Programs', type: 'Urban Corridors' },
+    { name: 'Addis Ababa City Roads Authority', type: 'Infrastructure & Roads' },
+    { name: 'Industrial Parks Development Corp.', type: 'Industrial & Logistics' },
+    { name: 'Commercial Towers & Districts', type: 'Commercial Facilities' },
+    { name: 'Wisdom Business Group Sites', type: 'Corporate Network' },
+  ]
+
+  return (
+    <section className="border-b border-navy/10 bg-paper py-10">
+      <Container>
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+          <div>
+            <p className="kicker !text-[0.6875rem] text-navy/55">Trusted by public & institutional partners</p>
+            <h3 className="mt-1 text-lg font-bold text-navy md:text-xl">Built for municipal, corridor & institutional accountability</h3>
+          </div>
+          <a
+            href={company.capabilityPdf}
+            download
+            className="inline-flex items-center gap-2 rounded-xl border border-navy/15 bg-white px-4 py-2.5 text-xs font-bold text-navy shadow-sm transition hover:border-navy hover:bg-lime/20"
+          >
+            <Icon name="download" size={14} className="text-moss" />
+            Download Capability Statement (PDF)
+          </a>
+        </div>
+        <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {partners.map((p) => (
+            <div
+              key={p.name}
+              className="flex flex-col justify-between rounded-xl border border-navy/10 bg-white p-3.5 shadow-sm transition-all duration-300 hover:border-lime hover:shadow-md"
+            >
+              <div className="flex items-center gap-2">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-lime/30 text-moss">
+                  <Icon name="shield" size={13} />
+                </span>
+                <span className="text-[0.625rem] font-bold uppercase tracking-wider text-navy/45">{p.type}</span>
+              </div>
+              <p className="mt-3 text-xs font-bold leading-snug text-navy">{p.name}</p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
 
 function Sectors() {
   const [active, setActive] = useState(0)
@@ -345,7 +400,7 @@ function WhyDayenu() {
       <Container className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <Reveal className="relative mx-auto w-full max-w-md lg:max-w-none">
           <div className="aspect-[4/5] overflow-hidden rounded-2xl lg:aspect-[5/6]">
-            <img src={img.safety} alt="Field team in reflective safety vests" className="h-full w-full object-cover" />
+            <img src={img.safety} alt="Dayenu managed field team in Addis Ababa" className="h-full w-full object-cover" />
           </div>
           <div className="absolute right-4 -bottom-5 left-4 flex items-center gap-3 rounded-xl bg-lime p-4 text-navy shadow-xl sm:right-auto sm:max-w-[17rem]">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-navy text-lime">
@@ -375,9 +430,14 @@ function WhyDayenu() {
               </li>
             ))}
           </ul>
-          <Button className="mt-6" href="#/contact">
-            Talk to our team
-          </Button>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button href="#/contact?topic=Pilot">
+              Start a pilot area
+            </Button>
+            <Button variant="ghost-light" href="#/contact">
+              Request a site assessment
+            </Button>
+          </div>
         </div>
       </Container>
     </section>
@@ -453,10 +513,18 @@ function HowItWorks() {
             ))}
           </ol>
         </Reveal>
-        <div className="mt-10 text-center">
+        <div className="mt-10 flex flex-wrap justify-center gap-3 text-center">
           <Button variant="navy" href="#/contact">
-            Discuss your project
+            Request a site assessment
           </Button>
+          <a
+            href={company.capabilityPdf}
+            download
+            className="inline-flex items-center gap-2 rounded-xl border border-navy/20 bg-white px-5 py-3 text-sm font-bold text-navy transition hover:bg-lime/20"
+          >
+            <Icon name="download" size={15} className="text-moss" />
+            Download Capability Statement (PDF)
+          </a>
         </div>
       </Container>
     </section>
@@ -515,12 +583,17 @@ function Journal() {
 
   const displayItems =
     livePosts.length > 0
-      ? livePosts.map((p) => ({
+      ? livePosts.map((p, i) => ({
           slug: p.slug,
           title: p.Title || p.title || 'Untitled Article',
           excerpt: p.excerpt,
           tag: p.tag || 'Insights',
           read: calculateReadingTime(p.content),
+          date: formatPostDate(p.publishedDate || p.publishedAt) || (posts[i]?.date ?? 'October 2026'),
+          author: {
+            name: p.authorName || posts[i]?.author?.name || 'Ephrem Tadesse',
+            role: p.authorRole || posts[i]?.author?.role || 'Operations Manager',
+          },
           image: getStrapiMediaUrl(p.coverImage, 'medium'),
         }))
       : posts.slice(0, 3)
@@ -547,15 +620,27 @@ function Journal() {
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <p className="kicker mt-4 flex items-center gap-2 text-navy/55">
+                <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-navy/60">
                   <span className="h-1.5 w-1.5 rounded-full bg-lime" />
-                  {p.tag} · {p.read}
-                </p>
-                <h3 className="mt-2 text-lg font-bold leading-snug">{p.title}</h3>
-                <p className="mt-1.5 text-sm text-navy/60">{p.excerpt}</p>
-                <span className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] font-bold">
-                  Read article <Icon name="arrow" size={14} className="transition-transform group-hover:translate-x-1" />
-                </span>
+                  <span className="font-bold text-navy/85">{p.tag}</span>
+                  <span>·</span>
+                  <span>{p.date}</span>
+                  <span>·</span>
+                  <span>{p.read}</span>
+                </div>
+                <h3 className="mt-2 text-lg font-bold leading-snug group-hover:text-moss transition-colors">{p.title}</h3>
+                <p className="mt-1.5 text-sm text-navy/60 line-clamp-2">{p.excerpt}</p>
+                {p.author && (
+                  <div className="mt-4 flex items-center gap-2.5 border-t border-navy/10 pt-3">
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-lime/40 text-xs font-bold text-navy">
+                      {p.author.name.charAt(0)}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-navy leading-none">{p.author.name}</p>
+                      <p className="mt-0.5 text-[0.6875rem] text-navy/55 truncate">{p.author.role}</p>
+                    </div>
+                  </div>
+                )}
               </a>
             </Reveal>
           ))}
@@ -569,6 +654,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <ClientLogos />
       <AtAGlance />
       <Sectors />
       <ServicesGrid />

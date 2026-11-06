@@ -1,3 +1,5 @@
+import { company } from './data'
+import { Icon } from './Icon'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 export function useHashRoute() {
@@ -204,13 +206,25 @@ export function ContactCta({ title = 'Tell us about your site. We will plan the 
         <div>
           <p className="kicker text-navy/70">Get in touch</p>
           <h2 className={`mt-4 max-w-xl text-navy ${h2Class}`}>{title}</h2>
-          <Button variant="navy" className="mt-7" href="#/contact">
-            Contact us
-          </Button>
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <Button variant="navy" href="#/contact">
+              Request a site assessment
+            </Button>
+            <Button variant="ghost" href="#/contact?topic=Pilot" className="border-navy/30 text-navy hover:bg-navy/10">
+              Start a pilot area
+            </Button>
+            <a
+              href={company.capabilityPdf}
+              download
+              className="inline-flex items-center gap-1.5 rounded-xl border border-navy/20 bg-white/70 px-4 py-2.5 text-xs font-bold text-navy shadow-sm transition hover:bg-white active:scale-95"
+            >
+              <Icon name="download" size={13} /> Capability Statement (PDF)
+            </a>
+          </div>
         </div>
         <a
           href="#/contact"
-          aria-label="Contact us"
+          aria-label="Request a site assessment"
           className="group relative hidden h-32 w-32 place-items-center rounded-full bg-navy text-lime transition-transform duration-500 hover:scale-105 md:grid"
         >
           <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full" aria-hidden>
@@ -218,7 +232,7 @@ export function ContactCta({ title = 'Tell us about your site. We will plan the 
               <path id="cta-circle" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0" />
             </defs>
             <text className="fill-current font-display text-[0.9375rem] font-semibold tracking-[0.32em] uppercase">
-              <textPath href="#cta-circle">Contact us · Available 24/7 ·</textPath>
+              <textPath href="#cta-circle">Site Assessment · Available 24/7 ·</textPath>
             </text>
           </svg>
           <span className="font-display text-2xl transition-transform duration-300 group-hover:-rotate-45" aria-hidden>

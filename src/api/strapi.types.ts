@@ -54,6 +54,8 @@ export interface BlogPost {
   publishedAt: string
   coverImage: StrapiMedia | null
   tag?: string
+  authorName?: string
+  authorRole?: string
 }
 
 export interface StrapiPagination {

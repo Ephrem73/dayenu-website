@@ -130,31 +130,41 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="bg-white py-16 md:py-28">
-        <Container className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <section className="bg-[#f2f8eb] py-16 md:py-28">
+        <Container className="grid gap-8 lg:grid-cols-2 lg:gap-10">
           <Reveal>
-            <Kicker>Vision</Kicker>
-            <p className="mt-5 text-[clamp(1.5rem,2.6vw,2.375rem)] leading-[1.2] font-semibold tracking-[-0.025em] text-navy">
-              To become a trusted Ethiopian provider of road, environmental, sanitation, waste-management and public-space maintenance services,{' '}
-              <span className="text-navy/40">recognized for reliable delivery, safe operations, environmental responsibility and visible public value.</span>
-            </p>
+            <div className="flex h-full flex-col justify-between rounded-3xl border border-lime/70 bg-lime-soft p-8 shadow-[0_8px_30px_rgba(70,117,38,0.06)] md:p-12">
+              <div>
+                <span className="inline-block rounded-full bg-moss px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                  Vision
+                </span>
+                <p className="mt-6 text-[clamp(1.35rem,2.2vw,2rem)] leading-[1.3] font-bold text-navy">
+                  To become a trusted Ethiopian provider of road, environmental, sanitation, waste-management and public-space maintenance services, recognized for reliable delivery, safe operations, environmental responsibility and visible public value.
+                </p>
+              </div>
+            </div>
           </Reveal>
           <Reveal delay={120}>
-            <Kicker>Mission</Kicker>
-            <p className="mt-5 leading-relaxed text-navy/70 md:text-lg">
-              To provide professional, reliable, cost-effective and environmentally responsible cleaning and maintenance services that protect public health,
-              improve the appearance and usability of public spaces, and support sustainable urban development.
-            </p>
-            <ul className="mt-6 divide-y divide-navy/10 border-y border-navy/10 text-[0.9375rem]">
-              {principles.map((t) => (
-                <li key={t} className="flex gap-2.5 py-3">
-                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-lime">
-                    <Icon name="check" size={11} />
-                  </span>
-                  {t}
-                </li>
-              ))}
-            </ul>
+            <div className="flex h-full flex-col justify-between rounded-3xl border border-lime/70 bg-lime-soft p-8 shadow-[0_8px_30px_rgba(70,117,38,0.06)] md:p-12">
+              <div>
+                <span className="inline-block rounded-full bg-moss px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                  Mission
+                </span>
+                <p className="mt-6 text-base leading-relaxed font-bold text-navy md:text-lg">
+                  To provide professional, reliable, cost-effective and environmentally responsible cleaning and maintenance services that protect public health, improve the appearance and usability of public spaces, and support sustainable urban development.
+                </p>
+              </div>
+              <ul className="mt-8 divide-y divide-navy/15 border-y border-navy/15 text-[0.9375rem]">
+                {principles.map((t) => (
+                  <li key={t} className="flex gap-2.5 py-3 font-bold text-navy">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-moss text-white">
+                      <Icon name="check" size={11} />
+                    </span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
         </Container>
       </section>
@@ -205,7 +215,7 @@ export default function About() {
             <Kicker>Where we work</Kicker>
             <h2 className={`mt-4 ${h2Class}`}>Based in Addis Ababa.</h2>
             <p className="mt-4 text-navy/70 md:text-lg">
-              Our head office is in Bole Atlas, Addis Ababa. From there we mobilize crews, supervisors and equipment to roads, corridors, compounds and
+              Our head office is in Bole Medhaniyalem (Bole Sheger), Addis Ababa. From there we mobilize crews, supervisors and equipment to roads, corridors, compounds and
               facilities. Tell us where your site is and we will confirm coverage.
             </p>
           </div>

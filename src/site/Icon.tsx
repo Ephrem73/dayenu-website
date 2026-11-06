@@ -26,6 +26,9 @@ const paths = {
   hardhat: <><path d="M4 16a8 8 0 0 1 16 0" /><path d="M2.5 16h19v2.5h-19z" /><path d="M10 8.5V5.5h4v3" /></>,
   leaf: <><path d="M5 20c0-9 5.5-15 15-15 0 10-6 15-14 15" /><path d="M5 20l8.5-8.5" /></>,
   tiles: <><rect x="3" y="3" width="18" height="18" rx="1.5" /><path d="M3 9h18M3 15h18M9 3v6M15 9v6M9 15v6" /></>,
+  whatsapp: <><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></>,
+  telegram: <><path d="M21.5 3.5L2 11l6.5 3 2.5 6 3-3.5 5 3.5 2.5-16.5z" /><path d="M8.5 14l10-8.5-7 9.5" /></>,
+  download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></>,
 }
 
 export type IconName = keyof typeof paths

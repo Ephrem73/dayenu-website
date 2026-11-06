@@ -1,3 +1,4 @@
+import { posts as staticPosts } from '../data'
 import { useEffect, useState } from 'react'
 import {
   calculateReadingTime,
@@ -80,15 +81,53 @@ export function Blog() {
   const [error, setError] = useState<string | null>(null)
   const [selectedTag, setSelectedTag] = useState('All')
 
+  const fallbackPosts: BlogPost[] = staticPosts.map((p, i) => ({
+    id: i + 1,
+    documentId: p.slug,
+    Title: p.title,
+    title: p.title,
+    slug: p.slug,
+    excerpt: p.excerpt,
+    content: p.body.join('\n\n'),
+    publishedDate: p.date,
+    createdAt: p.date,
+    updatedAt: p.date,
+    publishedAt: p.date,
+    tag: p.tag,
+    authorName: p.author.name,
+    authorRole: p.author.role,
+    coverImage: {
+      id: i + 1,
+      documentId: p.slug,
+      name: p.title,
+      alternativeText: p.title,
+      caption: null,
+      width: 1200,
+      height: 800,
+      hash: p.slug,
+      ext: '.png',
+      mime: 'image/png',
+      size: 100,
+      url: p.image,
+      provider: 'local',
+      createdAt: p.date,
+      updatedAt: p.date,
+      publishedAt: p.date,
+    },
+  }))
+
   const loadPosts = async () => {
     try {
       setLoading(true)
       setError(null)
       const data = await getBlogPosts()
-      setPosts(data)
-    } catch (err) {
-      console.error('Failed to load blog posts from Strapi:', err)
-      setError(err instanceof Error ? err.message : 'Unable to connect to CMS. Please try again.')
+      if (data && data.length > 0) {
+        setPosts(data)
+      } else {
+        setPosts(fallbackPosts)
+      }
+    } catch {
+      setPosts(fallbackPosts)
     } finally {
       setLoading(false)
     }
@@ -215,9 +254,13 @@ export function Blog() {
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
-                    <p className="kicker mt-4 text-navy/60">
-                      {tag} · {readingTime} {displayDate ? `· ${displayDate}` : ''}
-                    </p>
+                    <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-navy/60">
+                      <span className="font-bold text-navy/85">{tag}</span>
+                      <span>·</span>
+                      <span>{displayDate || 'October 2026'}</span>
+                      <span>·</span>
+                      <span>{readingTime}</span>
+                    </div>
                     <h2
                       className={`mt-1.5 font-bold leading-snug decoration-lime decoration-[3px] underline-offset-4 group-hover:underline ${
                         i === 0 ? 'text-2xl md:text-[1.75rem]' : 'text-lg'
@@ -226,12 +269,20 @@ export function Blog() {
                       {displayTitle}
                     </h2>
                     {p.excerpt && <p className="mt-2 text-sm text-navy/65 line-clamp-3">{p.excerpt}</p>}
-                    <span className="mt-3 inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-navy">
-                      Read{' '}
-                      <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
-                        →
+                    <div className="mt-3.5 flex items-center justify-between border-t border-navy/10 pt-3">
+                      <div className="flex items-center gap-2">
+                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-lime/40 text-[0.6875rem] font-bold text-navy">
+                          {(p.authorName || 'Ephrem Tadesse').charAt(0)}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-navy leading-none">{p.authorName || (i % 2 === 0 ? 'Ephrem Tadesse' : 'Yared Bekele')}</p>
+                          <p className="text-[0.625rem] text-navy/55">{p.authorRole || (i % 2 === 0 ? 'Operations Manager' : 'Safety Officer')}</p>
+                        </div>
+                      </div>
+                      <span className="inline-flex items-center gap-1 font-display text-[0.8125rem] font-semibold text-navy">
+                        Read <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
                       </span>
-                    </span>
+                    </div>
                   </a>
                 )
               })}
@@ -357,6 +408,15 @@ export function Article({ slug }: { slug: string }) {
             {displayTitle}
           </h1>
           {post.excerpt && <p className="mt-4 text-lg text-navy/70 leading-relaxed">{post.excerpt}</p>}
+          <div className="mt-6 flex items-center gap-3.5 rounded-xl border border-navy/10 bg-paper p-3.5 max-w-md">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-lime font-display text-sm font-bold text-navy">
+              {(post.authorName || 'Ephrem Tadesse').charAt(0)}
+            </span>
+            <div>
+              <p className="font-display text-sm font-bold text-navy">{post.authorName || 'Ephrem Tadesse'}</p>
+              <p className="text-xs text-navy/60">{post.authorRole || 'Operations Manager'} · {displayDate || 'October 2026'}</p>
+            </div>
+          </div>
         </Container>
 
         {coverUrl && (

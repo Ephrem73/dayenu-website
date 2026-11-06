@@ -12,12 +12,18 @@ export type Service = {
   for: string
 }
 
+export type Author = {
+  name: string
+  role: string
+}
+
 export type Post = {
   slug: string
   title: string
   tag: string
   read: string
   date: string
+  author: Author
   image: string
   excerpt: string
   body: string[]
@@ -28,10 +34,15 @@ export const company = {
   legalName: "Dayenu Road Cleaning Service PLC",
   tradingName: "Dayenu Road and Environment Cleaning Service PLC",
   established: "2026",
-  office: "Bole Atlas, Addis Ababa",
+  office: "Bole Medhaniyalem (Bole Sheger), Addis Ababa",
   phones: ["+251 915 590357", "+251 912 088496"],
+  whatsapp: "+251 915 590357",
+  whatsappUrl: "https://wa.me/251915590357",
+  telegram: "@DayenuCleaning",
+  telegramUrl: "https://t.me/DayenuCleaning",
   tagline: "Clean environments. Safer communities. Accountable service delivery.",
   hours: "Available 24/7 for planned operations and urgent cleaning support.",
+  capabilityPdf: "/Dayenu_Capability_Statement.pdf",
 }
 
 export const tel = (phone: string) => `tel:${phone.replace(/\s/g, "")}`
@@ -40,25 +51,25 @@ const u = (id: string, w = 1600) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=80&fit=crop&auto=format`
 
 export const img = {
-  crew: u("1763865778196-e3f2e3dbd425", 2200),
-  facility: u("1777269749032-d8d458ae594d", 2200),
-  greenery: u("1777666145684-209b6a390f83", 2200),
-  sweeping: u("1648662594772-786f95b9e58b"),
+  crew: "/assets/managed-crew.png",
+  facility: "/assets/facilities.png",
+  greenery: "/assets/landscaping.png",
+  sweeping: "/assets/road-crew.jpg",
   shovel: u("1597668094841-6ed2b257d9d1"),
-  sweeperTruck: u("1785868371782-6006815a6194"),
+  sweeperTruck: "/assets/road-crew.jpg",
   addis: u("1626598442658-ea6a1a5943df", 2200),
-  walkway: u("1766791656481-3faeeceef2bc"),
-  square: u("1782486715187-722248f364e6"),
-  drain: u("1745265796934-c34e78554872"),
+  walkway: "/assets/sidewalk-crew.jpg",
+  square: "/assets/sidewalk-crew.jpg",
+  drain: "/assets/drainage-crew.jpg",
   flood: u("1738541923029-a5243ec88d3b"),
-  construction: u("1621511075938-f03482369feb"),
+  construction: "/assets/post-construction.png",
   constructionSite: u("1609867271967-a82f85c48531"),
   warehouse: u("1772305336606-989a457ffbae"),
-  safety: u("1600823921193-c388313a14a5"),
-  planting: u("1622383563227-04401ab4e5ea"),
+  safety: "/assets/managed-crew.png",
+  planting: "/assets/landscaping.png",
   corridor: u("1643450408381-3f960eeab89b"),
-  campus: u("1731349219592-60ca16964631"),
-  washing: u("1677956787377-a0f32c0974af"),
+  campus: "/assets/facilities.png",
+  washing: "/assets/sidewalk-crew.jpg",
   night: u("1453413453658-27fec8f43f29", 2200),
 }
 
@@ -72,7 +83,7 @@ export const services: Service[] = [
     detail:
       "Planned route cleaning for city streets, road edges, medians and highway corridors. Each route is mapped, scheduled and checked by a supervisor, with day or night shifts arranged around traffic.",
     image: img.sweeping,
-    alt: "Street cleaner sweeping a city road with a broom",
+    alt: "Dayenu Ethiopian road sweeping crew cleaning street in Addis Ababa",
     includes: [
       "Manual or mechanical road sweeping",
       "Dust, sand, litter and debris removal",
@@ -90,7 +101,7 @@ export const services: Service[] = [
     detail:
       "Routine cleaning and upkeep for shared public environments, planned around pedestrian flow so spaces stay safe, presentable and usable throughout the day.",
     image: img.washing,
-    alt: "Worker pressure washing a paved public walkway",
+    alt: "Dayenu Ethiopian public space maintenance crew pressure washing plaza in Addis Ababa",
     includes: [
       "Sidewalks and pedestrian areas",
       "Waiting areas, markets and terminals",
@@ -108,7 +119,7 @@ export const services: Service[] = [
     detail:
       "Support that helps water flow and public spaces stay hygienic. Our teams clear accessible drains and channels, carry out environmental sanitation and report blocked, damaged or unsafe infrastructure to the client.",
     image: img.drain,
-    alt: "Metal drain cover on a wet concrete surface",
+    alt: "Dayenu Ethiopian sanitation crew clearing roadside drainage culvert in Addis Ababa",
     includes: [
       "Clearing accessible drains and channels",
       "Environmental sanitation activities",
@@ -126,7 +137,7 @@ export const services: Service[] = [
     detail:
       "Structured, supervised cleaning for buildings and compounds that need consistent standards. Industrial sites such as factories, warehouses and plants are covered in line with each site's safety requirements.",
     image: img.facility,
-    alt: "Clean, bright hospital corridor",
+    alt: "Dayenu professional facilities and institutional cleaning in Addis Ababa",
     includes: [
       "Offices, schools and healthcare facilities",
       "Commercial buildings, hotels and compounds",
@@ -144,7 +155,7 @@ export const services: Service[] = [
     detail:
       "Cleaning that takes a project from construction site to handover. We remove debris, control dust and carry out final cleaning, then support the upkeep of newly built roads, buildings and public corridors.",
     image: img.construction,
-    alt: "New building under construction",
+    alt: "Dayenu post-construction cleaning and dust control for new buildings and roads",
     includes: [
       "Construction debris removal",
       "Final cleaning and dust control",
@@ -162,7 +173,7 @@ export const services: Service[] = [
     detail:
       "Care for the green spaces that make a city more liveable. Teams maintain planted areas along roads, parks and compounds, and report on plant condition so problems are caught early.",
     image: img.planting,
-    alt: "Gloved hands planting a young seedling",
+    alt: "Dayenu landscaping and urban greenery team creating vibrant green spaces",
     includes: [
       "Grass cutting and garden cleaning",
       "Tree-planting support",
@@ -179,7 +190,11 @@ export const posts: Post[] = [
     title: "Why a managed service is more than labour supply",
     tag: "Approach",
     read: "4 min",
-    date: "2026",
+    date: "October 14, 2026",
+    author: {
+      name: "Ephrem Tadesse",
+      role: "Operations Manager",
+    },
     image: img.crew,
     excerpt:
       "Workers are only part of a clean city. What matters is who coordinates, supervises and reports on the work.",
@@ -195,7 +210,11 @@ export const posts: Post[] = [
     title: "Working safely beside traffic",
     tag: "Safety",
     read: "4 min",
-    date: "2026",
+    date: "October 22, 2026",
+    author: {
+      name: "Yared Bekele",
+      role: "HSE & Safety Officer",
+    },
     image: img.safety,
     excerpt:
       "Road cleaning puts people next to moving vehicles. These are the controls we put in place before a shift starts.",
@@ -211,7 +230,11 @@ export const posts: Post[] = [
     title: "What a day of field operations looks like",
     tag: "Operations",
     read: "5 min",
-    date: "2026",
+    date: "October 28, 2026",
+    author: {
+      name: "Abebe Mengistu",
+      role: "Field Operations & Shift Supervisor",
+    },
     image: img.sweeping,
     excerpt:
       "From the morning briefing to end-of-day closeout, each shift follows the same documented rhythm.",
@@ -227,7 +250,11 @@ export const posts: Post[] = [
     title: "Responsible waste, water and chemical practices",
     tag: "Environment",
     read: "4 min",
-    date: "2026",
+    date: "November 2, 2026",
+    author: {
+      name: "Selamawit Girma",
+      role: "Environmental Compliance Lead",
+    },
     image: img.greenery,
     excerpt:
       "Cleaning a public space should not create a problem somewhere else. These are the environmental commitments we work to.",
@@ -243,7 +270,11 @@ export const posts: Post[] = [
     title: "Starting small: pilots that scale",
     tag: "Procurement",
     read: "3 min",
-    date: "2026",
+    date: "November 4, 2026",
+    author: {
+      name: "Dawit Haile",
+      role: "Municipal Partnerships & Contracts Lead",
+    },
     image: img.addis,
     excerpt:
       "A pilot area lets clients judge the standard before expanding by route, facility, sub-city or project.",

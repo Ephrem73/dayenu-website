@@ -133,21 +133,42 @@ export function Header({ route }: { route: string }) {
             <span className="hidden opacity-50 lg:inline">·</span>
             <span className="hidden lg:inline">Roads, public spaces and institutions</span>
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 lg:gap-5">
             <span className="hidden items-center gap-1.5 xl:flex">
               <Icon name="clock" size={13} /> Available 24/7
             </span>
             <a href={tel(company.phones[0])} className="hidden items-center gap-1.5 hover:opacity-100 lg:flex">
               <Icon name="phone" size={13} /> {company.phones[0]}
             </a>
+            <a
+              href={company.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="hidden items-center gap-1 text-[0.75rem] font-semibold text-emerald-600 transition hover:opacity-100 lg:inline-flex"
+            >
+              <Icon name="whatsapp" size={13} /> WhatsApp
+            </a>
+            <a
+              href={company.telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Telegram"
+              className="hidden items-center gap-1 text-[0.75rem] font-semibold text-sky-600 transition hover:opacity-100 lg:inline-flex"
+            >
+              <Icon name="telegram" size={13} /> Telegram
+            </a>
             <a href="#/about" className="hover:opacity-100">
-              Our story
+              About
             </a>
             <a href="#/blog" className="hover:opacity-100">
               Journal
             </a>
-            <a href="#/contact" className="flex items-center gap-1.5 font-semibold">
-              <Icon name="mail" size={13} /> Get in touch
+            <a
+              href="#/contact"
+              className="inline-flex items-center gap-1.5 rounded-full bg-lime px-3 py-1 font-display text-xs font-bold !text-navy shadow-sm transition hover:bg-lime/90 active:scale-95"
+            >
+              <Icon name="mail" size={12} /> Get in touch
             </a>
           </div>
         </Container>
@@ -203,7 +224,7 @@ export function Header({ route }: { route: string }) {
             )
           })}
           <Button variant={solid ? 'navy' : 'lime'} size="sm" href="#/contact">
-            Contact us
+            Request a site assessment
           </Button>
         </nav>
         <button
@@ -261,7 +282,7 @@ export function Header({ route }: { route: string }) {
             </a>
           ))}
           <Button className="mt-5 w-full" variant="navy" href="#/contact">
-            Contact us
+            Request a site assessment
           </Button>
         </nav>
       )}
@@ -294,7 +315,7 @@ export function Footer() {
           <img src={logo} alt={company.tradingName} className="h-14 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
           <p className="mt-5 max-w-xs text-sm text-white/60">{company.tagline}</p>
           <a href="#/contact" className="mt-4 inline-block font-display text-sm font-semibold text-lime underline-offset-4 hover:underline">
-            Contact us →
+            Request a site assessment →
           </a>
         </div>
         <FooterCol title="Services" items={services.map((s) => [s.name, `#/services/${s.id}`])} />
@@ -308,8 +329,8 @@ export function Footer() {
           ]}
         />
         <div>
-          <h4 className="kicker text-lime">Contact</h4>
-          <ul className="mt-4 space-y-2 text-sm text-white/70">
+          <h4 className="kicker text-lime">Contact & Dispatch</h4>
+          <ul className="mt-4 space-y-2.5 text-sm text-white/70">
             {company.phones.map((p) => (
               <li key={p}>
                 <a href={tel(p)} className="transition-colors hover:text-white">
@@ -317,8 +338,27 @@ export function Footer() {
                 </a>
               </li>
             ))}
+            <li>
+              <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-emerald-400 transition-colors hover:text-white">
+                <Icon name="whatsapp" size={14} /> WhatsApp: {company.whatsapp}
+              </a>
+            </li>
+            <li>
+              <a href={company.telegramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sky-300 transition-colors hover:text-white">
+                <Icon name="telegram" size={14} /> Telegram: {company.telegram}
+              </a>
+            </li>
             <li className="text-white/60">Head office: {company.office}</li>
             <li className="text-white/60">Available 24/7</li>
+            <li className="pt-2">
+              <a
+                href={company.capabilityPdf}
+                download
+                className="inline-flex items-center gap-1.5 rounded-lg border border-lime/40 bg-lime/10 px-3 py-1.5 text-xs font-bold text-lime transition hover:bg-lime hover:text-navy"
+              >
+                <Icon name="download" size={13} /> Capability Statement (PDF)
+              </a>
+            </li>
           </ul>
         </div>
       </Container>
@@ -327,7 +367,7 @@ export function Footer() {
           aria-hidden
           className="select-none font-display text-[461px] font-extrabold leading-[0.8] tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.25px_rgba(182,228,140,.35)] transition-colors duration-700 hover:text-lime"
         >
-          dayenu
+          Dayenu
         </p>
       </Container>
       <Container className="flex flex-col justify-between gap-1.5 border-t border-white/10 py-5 text-xs text-white/45 md:flex-row">

@@ -3,11 +3,13 @@ import { company, faqs, img, services, tel } from '../data'
 import { Icon, type IconName } from '../Icon'
 import { Button, Container, Kicker, PageHero, Reveal, h2Class } from '../ui'
 
-const channels: [IconName, string, string, string, string?][] = [
+const channels: [IconName, string, string, string, string?, boolean?][] = [
   ['phone', 'Call us', company.phones[0], `Also ${company.phones[1]}`, tel(company.phones[0])],
+  ['whatsapp', 'WhatsApp', company.whatsapp, 'Instant chat and urgent dispatch', company.whatsappUrl],
+  ['telegram', 'Telegram', company.telegram, 'Official channel and operations desk', company.telegramUrl],
   ['pin', 'Head office', company.office, 'Ethiopia'],
   ['clock', 'Availability', 'Available 24/7', 'Planned operations and urgent support'],
-  ['briefcase', 'Procurement', 'Tenders, RFQs and pilots', 'Framework and service-level contracts'],
+  ['briefcase', 'Capability Statement', 'Download Official PDF', 'Machinery inventory & compliance', company.capabilityPdf, true],
 ]
 
 const nextSteps = [
@@ -74,7 +76,7 @@ export default function Contact({ service }: { service?: string | null }) {
               <h2 className={`mt-4 ${h2Class}`}>Prefer to talk? We are easy to reach.</h2>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
-              {channels.map(([icon, label, value, note, href]) => (
+              {channels.map(([icon, label, value, note, href, isDownload]) => (
                 <li key={label} className="group rounded-2xl bg-white p-5 transition-shadow duration-300 hover:shadow-[0_20px_45px_-28px_rgba(16,29,73,.35)]">
                   <span className="grid h-9 w-9 place-items-center rounded-full bg-lime-soft text-navy transition-colors group-hover:bg-lime">
                     <Icon name={icon} size={16} />
@@ -82,7 +84,13 @@ export default function Contact({ service }: { service?: string | null }) {
                   <p className="kicker mt-4 !text-[0.625rem] text-navy/55">{label}</p>
                   <p className="mt-1 font-display text-[0.9375rem] font-semibold">
                     {href ? (
-                      <a href={href} className="underline decoration-lime decoration-2 underline-offset-4 hover:decoration-navy">
+                      <a
+                        href={href}
+                        download={isDownload ? true : undefined}
+                        target={href.startsWith('http') ? '_blank' : undefined}
+                        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="underline decoration-lime decoration-2 underline-offset-4 hover:decoration-navy"
+                      >
                         {value}
                       </a>
                     ) : (
@@ -244,7 +252,7 @@ export default function Contact({ service }: { service?: string | null }) {
                       disabled={sending}
                       className="group inline-flex h-11 items-center gap-2 rounded-full bg-lime px-5 font-display text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
                     >
-                      {sending ? 'Sending…' : 'Send message'}
+                      {sending ? 'Submitting…' : 'Request site assessment'}
                       <Icon name="send" size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </button>
                   </div>
