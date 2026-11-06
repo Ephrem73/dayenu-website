@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { company, faqs, img, services, tel } from '../data'
-import { Icon } from '../Icon'
+import { Icon, type IconName } from '../Icon'
 import { Button, Container, Kicker, PageHero, Reveal, h2Class } from '../ui'
 
 const channels: [IconName, string, string, string, string?, boolean?][] = [

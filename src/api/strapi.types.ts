@@ -32,7 +32,7 @@ export interface StrapiMedia {
   mime: string
   size: number
   url: string
-  previewUrl: string | null
+  previewUrl?: string | null
   provider: string
   provider_metadata?: unknown | null
   createdAt: string

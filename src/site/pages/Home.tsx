@@ -14,6 +14,25 @@ const slides = [
   { label: 'Parks & greenery', href: '#/services/landscaping', image: img.greenery },
 ]
 
+function Seal() {
+  return (
+    <div className="relative grid h-28 w-28 place-items-center xl:h-32 xl:w-32">
+      <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full text-lime" aria-hidden>
+        <defs>
+          <path id="seal-circle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
+        </defs>
+        <circle cx="100" cy="100" r="98" fill="none" stroke="currentColor" strokeOpacity=".45" />
+        <text className="fill-current font-display text-[0.78125rem] font-semibold tracking-[0.3em] uppercase">
+          <textPath href="#seal-circle">Clean environments · Safer communities ·</textPath>
+        </text>
+      </svg>
+      <span className="grid h-12 w-12 place-items-center rounded-full bg-lime text-navy shadow-[0_0_32px_rgba(182,228,140,.45)] xl:h-14 xl:w-14">
+        <Star size={20} />
+      </span>
+    </div>
+  )
+}
+
 function Hero() {
   const [active, setActive] = useState(0)
   const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
