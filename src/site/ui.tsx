@@ -1,6 +1,7 @@
 import { company } from './data'
 import { Icon } from './Icon'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { img } from './data'
 
 export function useHashRoute() {
   const [hash, setHash] = useState(() => window.location.hash || '#/')
@@ -135,7 +136,7 @@ export function PageHero({ kicker, title, children, image }: { kicker: string; t
     <section className="bg-navy-deep px-2 pt-16 pb-2 md:px-3 md:pt-24">
       <div className="relative overflow-hidden rounded-3xl bg-navy text-white">
         {image && (
-          <div className="absolute inset-y-0 right-0 hidden w-[44%] md:block">
+          <div className="absolute inset-y-0 right-0 hidden w-[44%] overflow-hidden md:block">
             <img src={image} alt="" className="kenburns h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/40 to-transparent" />
           </div>

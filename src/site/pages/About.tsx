@@ -85,6 +85,60 @@ export default function About() {
         </Container>
       </section>
 
+      <section aria-labelledby="ceo-message-title" className="bg-paper py-16 md:py-28">
+        <Container className="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div className="lg:sticky lg:top-28">
+            <Kicker>Leadership</Kicker>
+            <h2 id="ceo-message-title" className={`mt-4 ${h2Class}`}>Message from the CEO<span className="text-moss">.</span></h2>
+            <div className="mt-7 max-w-md overflow-hidden rounded-2xl bg-navy text-white">
+              <div className="h-52 overflow-hidden bg-navy/20 sm:h-64 lg:h-[clamp(10rem,25vh,17rem)]">
+                <img
+                  src="/dayenu/mintesnot-firdawek.jpg"
+                  alt="Mintesnot Firdawek, CEO of Dayenu"
+                  className="h-full w-full -translate-x-[4.5%] origin-[50%_28%] scale-[1.3] object-cover object-[center_48%]"
+                  loading="lazy"
+                />
+              </div>
+              <div className="border-t-4 border-lime px-6 py-5">
+                <p className="font-display text-xl font-bold">Mintesnot Firdawek</p>
+                <p className="mt-1 text-sm font-semibold text-lime">Chief Executive Officer</p>
+                <p className="mt-2 text-sm text-white/65">Dayenu Road &amp; Environment Cleaning Services PLC</p>
+              </div>
+            </div>
+          </div>
+          <Reveal delay={120}>
+            <div className="max-w-3xl space-y-5 leading-relaxed text-navy/75 md:text-lg">
+              <p>
+                At Dayenu Road &amp; Environment Cleaning Services PLC, our vision is to contribute to a cleaner, healthier, and more sustainable future through
+                excellence, innovation, and environmental responsibility.
+              </p>
+              <p>
+                We recognize that environmental cleanliness and sustainable infrastructure are essential pillars of economic development, public health, and
+                community well-being. Guided by this understanding, we are committed to delivering comprehensive, reliable, and high-quality solutions in road
+                cleaning, environmental sanitation, commercial and industrial cleaning, waste management, and landscaping services.
+              </p>
+              <p>
+                Our approach is built on professionalism, operational excellence, innovation, and a deep commitment to environmental sustainability. We
+                continuously strive to adopt effective technologies, strengthen our capabilities, and exceed our clients’ expectations while creating meaningful
+                and lasting value for the communities we serve.
+              </p>
+              <p>
+                We believe that building a sustainable future requires more than providing services; it requires leadership, accountability, strategic
+                partnerships, and a shared commitment to positive change.
+              </p>
+              <p>
+                As we continue to grow, our ambition remains clear: to become a trusted leader in environmental and cleaning solutions, setting higher standards
+                of service excellence and contributing to a cleaner, greener, and more sustainable society.
+              </p>
+              <p>
+                I sincerely appreciate the trust of our clients, the dedication of our employees, and the support of our partners as we pursue this vision together.
+              </p>
+              <p className="font-semibold text-navy">Together, we are shaping a cleaner environment and a sustainable future.</p>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
       <section className="relative isolate overflow-hidden bg-navy-deep py-20 text-white md:py-32">
         <img src={img.night} alt="" className="absolute inset-0 -z-20 h-full w-full object-cover opacity-45" />
         <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,19,50,.95)_20%,rgba(10,19,50,.55))]" />

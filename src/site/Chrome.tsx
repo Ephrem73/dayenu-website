@@ -19,10 +19,16 @@ function MegaMenu({ onNavigate }: { onNavigate: () => void }) {
   const [active, setActive] = useState(0)
   const s = services[active]
   return (
-    <div className="grid grid-cols-[260px_minmax(0,1fr)] gap-3 rounded-b-2xl border border-t-0 border-navy/10 bg-white p-3 shadow-[0_24px_50px_rgba(16,29,73,.14)]">
-      <div className="rounded-xl bg-paper p-2">
-        <p className="kicker mx-2 mt-1 mb-2 !text-[0.625rem] text-navy/55">Our services</p>
-        <ul>
+    <div className="grid max-h-[calc(100svh-6.5rem)] grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] gap-5 overflow-y-auto rounded-b-2xl border border-t-0 border-navy/10 bg-white p-5 shadow-[0_24px_60px_rgba(10,19,50,.2)] lg:gap-8 lg:p-7">
+      <div className="min-w-0">
+        <div className="mb-3 flex items-end justify-between gap-4 border-b border-navy/10 pb-3">
+          <div>
+            <p className="kicker !text-[0.625rem] text-moss">What we do</p>
+            <p className="mt-1 font-display text-lg font-bold tracking-tight text-navy">Services for cleaner spaces<span className="text-moss">.</span></p>
+          </div>
+          <span className="hidden pb-0.5 text-xs font-medium text-navy/45 lg:block">01 — 06</span>
+        </div>
+        <ul className="grid gap-1 lg:grid-cols-2 lg:gap-x-2">
           {services.map((item, i) => (
             <li key={item.id}>
               <a
@@ -30,15 +36,15 @@ function MegaMenu({ onNavigate }: { onNavigate: () => void }) {
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
                 onClick={onNavigate}
-                className={`grid h-10 grid-cols-[28px_1fr_16px] items-center gap-2.5 rounded-lg px-2 text-[0.8125rem] font-semibold text-navy transition-colors duration-150 ${
-                  i === active ? 'bg-lime' : 'hover:bg-lime/50'
+                className={`group grid min-h-12 grid-cols-[36px_minmax(0,1fr)_16px] items-center gap-3 rounded-xl px-2.5 py-2 text-[0.8125rem] font-semibold leading-snug text-navy transition-colors duration-200 lg:min-h-[4.25rem] ${
+                  i === active ? 'bg-lime-soft' : 'hover:bg-paper'
                 }`}
               >
-                <span className="grid h-7 w-7 place-items-center rounded-md bg-white">
-                  <Icon name={item.icon} size={15} />
+                <span className={`grid h-9 w-9 place-items-center rounded-lg transition-colors ${i === active ? 'bg-lime' : 'bg-paper group-hover:bg-white'}`}>
+                  <Icon name={item.icon} size={17} />
                 </span>
                 {item.name}
-                <Icon name="arrow" size={14} />
+                <Icon name="arrow" size={14} className={`transition-all ${i === active ? 'translate-x-0 opacity-100' : '-translate-x-1 opacity-30 group-hover:translate-x-0 group-hover:opacity-100'}`} />
               </a>
             </li>
           ))}
@@ -46,32 +52,25 @@ function MegaMenu({ onNavigate }: { onNavigate: () => void }) {
         <a
           href="#/services"
           onClick={onNavigate}
-          className="mx-2 mt-2 flex items-center gap-1.5 border-t border-navy/10 pt-2.5 pb-1 text-xs font-bold text-moss hover:text-navy"
+          className="group mt-3 inline-flex items-center gap-2 text-sm font-bold text-moss transition-colors hover:text-navy"
         >
-          View all services <Icon name="arrow" size={13} />
+          Explore all services <Icon name="arrow" size={14} className="transition-transform group-hover:translate-x-1" />
         </a>
       </div>
-      <div key={s.id} className="fade-in grid min-w-0 overflow-hidden rounded-xl border border-navy/10 lg:grid-cols-[1fr_1fr]">
-        <img src={s.image} alt={s.alt} className="hidden h-full max-h-[320px] min-h-[280px] w-full object-cover lg:block" />
-        <div className="flex items-start gap-3.5 p-6">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-lime text-navy">
-            <Icon name={s.icon} size={16} />
-          </span>
-          <div>
-            <h3 className="text-xl font-bold leading-tight text-navy">{s.name}</h3>
-            <p className="mt-2 text-[0.8125rem] leading-relaxed text-navy/65">{s.blurb}</p>
-            <ul className="mt-4 space-y-1.5">
-              {s.includes.slice(0, 3).map((inc) => (
-                <li key={inc} className="flex items-center gap-2 text-xs text-navy/75">
-                  <Icon name="check" size={13} className="text-moss" />
-                  {inc}
-                </li>
-              ))}
-            </ul>
-            <a href={`#/services/${s.id}`} onClick={onNavigate} className="group mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-navy">
-              Explore {s.name} <Icon name="arrow" size={14} className="transition-transform group-hover:translate-x-1" />
-            </a>
-          </div>
+      <div key={s.id} className="fade-in relative isolate flex min-h-[290px] min-w-0 flex-col justify-between overflow-hidden rounded-xl bg-navy p-5 text-white lg:p-6">
+        <img src={s.image} alt="" className="absolute inset-0 -z-20 h-full w-full object-cover" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,19,50,.3)_0%,rgba(10,19,50,.65)_40%,rgba(10,19,50,.97)_100%)]" />
+        <div className="flex items-center justify-between gap-3">
+          <span className="rounded-full border border-white/30 bg-navy/30 px-3 py-1.5 text-[0.625rem] font-bold tracking-[0.12em] uppercase backdrop-blur-sm">Service spotlight</span>
+          <span className="text-xs font-semibold text-white/75">0{active + 1} / 06</span>
+        </div>
+        <div className="pt-12">
+          <span className="mb-3 grid h-9 w-9 place-items-center rounded-full bg-lime text-navy"><Icon name={s.icon} size={17} /></span>
+          <h3 className="text-xl font-bold leading-tight lg:text-2xl">{s.name}</h3>
+          <p className="mt-2 max-w-sm text-[0.8125rem] leading-relaxed text-white/80">{s.blurb}</p>
+          <a href={`#/services/${s.id}`} onClick={onNavigate} className="group mt-4 inline-flex items-center gap-2 text-sm font-bold text-lime">
+            Discover service <Icon name="arrow" size={15} className="transition-transform group-hover:translate-x-1" />
+          </a>
         </div>
       </div>
     </div>
@@ -129,9 +128,7 @@ export function Header({ route }: { route: string }) {
         <Container className="flex h-8 items-center justify-between text-xs">
           <p className="flex items-center gap-2.5">
             <span className="h-1.5 w-1.5 rounded-full bg-lime" />
-            Road & Environment Cleaning Service
-            <span className="hidden opacity-50 lg:inline">·</span>
-            <span className="hidden lg:inline">Roads, public spaces and institutions</span>
+            Addis Ababa, Ethiopia
           </p>
           <div className="flex items-center gap-4 lg:gap-5">
             <span className="hidden items-center gap-1.5 xl:flex">
@@ -158,18 +155,6 @@ export function Header({ route }: { route: string }) {
             >
               <Icon name="telegram" size={13} /> Telegram
             </a>
-            <a href="#/about" className="hover:opacity-100">
-              About
-            </a>
-            <a href="#/blog" className="hover:opacity-100">
-              Journal
-            </a>
-            <a
-              href="#/contact"
-              className="inline-flex items-center gap-1.5 rounded-full bg-lime px-3 py-1 font-display text-xs font-bold !text-navy shadow-sm transition hover:bg-lime/90 active:scale-95"
-            >
-              <Icon name="mail" size={12} /> Get in touch
-            </a>
           </div>
         </Container>
       </div>
@@ -188,7 +173,6 @@ export function Header({ route }: { route: string }) {
             className="relative"
             onMouseEnter={open}
             onMouseLeave={close}
-            onFocus={open}
             onBlur={(e) => !e.currentTarget.contains(e.relatedTarget as Node) && close()}
           >
             <div className="flex items-center gap-1">
@@ -196,7 +180,7 @@ export function Header({ route }: { route: string }) {
                 Services
               </a>
               <button
-                aria-label="Show services menu"
+                aria-label={megaOpen ? 'Hide services menu' : 'Show services menu'}
                 aria-expanded={megaOpen}
                 aria-controls="mega-menu"
                 onClick={() => setMegaOpen(!megaOpen)}
@@ -223,8 +207,8 @@ export function Header({ route }: { route: string }) {
               </a>
             )
           })}
-          <Button variant={solid ? 'navy' : 'lime'} size="sm" href="#/contact">
-            Request a site assessment
+          <Button variant="lime" size="sm" href="#/contact" className="!bg-lime !text-navy font-bold shadow-sm hover:!bg-lime/90">
+            Get in touch
           </Button>
         </nav>
         <button

@@ -9,29 +9,10 @@ import { Button, Container, ContactCta, Kicker, Reveal, ScrollText, SectionHead,
 const SLIDE_MS = 7000
 
 const slides = [
-  { label: 'Roads & corridors', line: 'Sweeping, litter and debris removal for streets, medians and corridors.', href: '#/services/road', image: img.crew },
-  { label: 'Institutions & facilities', line: 'Scheduled cleaning for hospitals, schools, offices and compounds.', href: '#/services/facilities', image: img.facility },
-  { label: 'Parks & greenery', line: 'Grass cutting, watering, pruning and tree-planting support.', href: '#/services/landscaping', image: img.greenery },
+  { label: 'Roads & corridors', href: '#/services/road', image: img.crew },
+  { label: 'Institutions & facilities', href: '#/services/facilities', image: img.facility },
+  { label: 'Parks & greenery', href: '#/services/landscaping', image: img.greenery },
 ]
-
-function Seal() {
-  return (
-    <div className="relative grid h-28 w-28 place-items-center xl:h-32 xl:w-32">
-      <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full text-lime" aria-hidden>
-        <defs>
-          <path id="seal-circle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
-        </defs>
-        <circle cx="100" cy="100" r="98" fill="none" stroke="currentColor" strokeOpacity=".45" />
-        <text className="fill-current font-display text-[0.78125rem] font-semibold tracking-[0.3em] uppercase">
-          <textPath href="#seal-circle">Clean environments · Safer communities ·</textPath>
-        </text>
-      </svg>
-      <span className="grid h-12 w-12 place-items-center rounded-full bg-lime text-navy shadow-[0_0_32px_rgba(182,228,140,.45)] xl:h-14 xl:w-14">
-        <Star size={20} />
-      </span>
-    </div>
-  )
-}
 
 function Hero() {
   const [active, setActive] = useState(0)
@@ -59,10 +40,9 @@ function Hero() {
           </div>
         ))}
       </div>
-      <span aria-hidden className="hero-blade pointer-events-none absolute inset-y-0 -z-10 w-[3px] bg-lime shadow-[0_0_40px_8px_rgba(182,228,140,.55)]" />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,19,50,.55)_0%,rgba(10,19,50,.25)_30%,rgba(10,19,50,.55)_62%,rgba(10,19,50,.97)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,19,50,.52)_0%,rgba(10,19,50,.34)_38%,rgba(10,19,50,.65)_72%,rgba(10,19,50,.95)_100%)]"
       />
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_15%_55%,rgba(10,19,50,.7),transparent_60%)]" />
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_88%_78%,rgba(182,228,140,.2),transparent_45%)]" />
@@ -108,8 +88,7 @@ function Hero() {
           <div className="hero-details mt-4 grid items-end gap-5 md:grid-cols-12" style={{ animation: 'fade .9s 1.3s ease both' }}>
             <div className="md:col-span-7 lg:col-span-6">
               <p className="hero-description max-w-[36rem] leading-relaxed text-white/80 md:text-xl">
-                Road cleaning, environmental sanitation, facility cleaning and public-space maintenance across Addis Ababa. Planned, supervised and reported,{' '}
-                <span className="font-semibold text-lime">around the clock.</span>
+                Professional cleaning and maintenance for Addis Ababa’s roads, facilities and public spaces.
               </p>
               <ul className="hero-highlights mt-3 mb-3.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.8125rem] text-white/90">
                 {['Available 24/7', 'Supervised every shift', 'Measurable reporting'].map((t) => (
@@ -142,15 +121,14 @@ function Hero() {
         </div>
 
         <div className="grid grid-cols-[1fr_auto] border-t border-lime/30" style={{ animation: 'fade .9s 1.5s ease both' }}>
-          <div role="tablist" aria-label="Where we work" className="grid grid-cols-3">
+          <div role="group" aria-label="Choose a featured service" className="grid grid-cols-3">
             {slides.map((s, i) => (
               <button
                 key={s.label}
-                role="tab"
-                aria-selected={i === active}
+                aria-pressed={i === active}
                 onClick={() => setActive(i)}
-                className={`hero-tab group relative flex flex-col items-start justify-start py-4 pr-3 text-left transition-opacity md:py-5 md:pr-8 ${i ? 'pl-3 md:pl-6' : ''} ${
-                  i === active ? 'opacity-100' : 'opacity-55 hover:opacity-90'
+                className={`hero-tab group relative flex min-h-16 flex-col items-start justify-center py-4 pr-3 text-left transition-colors hover:bg-white/10 md:py-5 md:pr-8 ${i ? 'pl-3 md:pl-6' : ''} ${
+                  i === active ? 'text-white' : 'text-white/70 hover:text-white'
                 }`}
               >
                 {i === active && (
@@ -161,9 +139,8 @@ function Hero() {
                     style={playing ? { animationDuration: `${SLIDE_MS}ms` } : { animation: 'none', transform: 'scaleX(1)' }}
                   />
                 )}
-                <span className="font-display text-[0.6875rem] text-lime">0{i + 1}</span>
+                <span className="font-display text-[0.625rem] text-lime/80">0{i + 1}</span>
                 <span className={`mt-1 block font-display text-[0.8125rem] font-semibold md:text-[0.9375rem] ${i === active ? 'text-lime' : ''}`}>{s.label}</span>
-                <span className="mt-0.5 hidden max-w-xs text-[0.8125rem] text-white/65 lg:block">{s.line}</span>
               </button>
             ))}
           </div>
@@ -348,38 +325,34 @@ function ServicesGrid() {
   return (
     <section className="bg-paper py-16 md:py-28">
       <Container>
-        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHead
             kicker="Our services"
             title="Six service areas, one accountable team."
-            body="Every assignment is confirmed with a service scope, a route or site map, a frequency schedule and an agreed performance standard."
+            body="Reliable cleaning and maintenance for the places our communities use every day."
           />
-          <a href="#/services" className="shrink-0 text-sm font-semibold underline decoration-lime decoration-2 underline-offset-[6px] hover:decoration-navy">
-            See everything we do →
+          <a href="#/services" className="group inline-flex shrink-0 items-center gap-3 self-start border-b border-navy pb-2 text-sm font-semibold transition-colors hover:text-moss md:self-auto">
+            All services <Icon name="arrow" size={16} className="transition-transform group-hover:translate-x-1" />
           </a>
         </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-12">
           {services.map((s, i) => (
-            <Reveal key={s.id} delay={(i % 3) * 80}>
-              <a
-                href={`#/services/${s.id}`}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white transition-shadow duration-500 hover:shadow-[0_24px_50px_-30px_rgba(16,29,73,.4)]"
-              >
-                <div className="relative aspect-[3/2] overflow-hidden">
-                  <img src={s.image} alt={s.alt} className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
-                  <span className="absolute bottom-3 left-3 grid h-9 w-9 place-items-center rounded-full bg-white text-navy shadow-md transition-colors duration-300 group-hover:bg-lime">
-                    <Icon name={s.icon} size={16} />
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="text-[1.0625rem] font-bold leading-snug md:text-lg">{s.name}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-navy/65">{s.blurb}</p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-bold text-navy">
-                    Learn more <Icon name="arrow" size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </a>
-            </Reveal>
+            <a
+              key={s.id}
+              href={`#/services/${s.id}`}
+              className={`group min-w-0 text-navy ${i === 0 ? 'lg:col-span-7' : i === 1 ? 'lg:col-span-5' : 'lg:col-span-3'}`}
+            >
+              <div className={`overflow-hidden bg-navy/10 ${i < 2 ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-56 sm:h-64 lg:h-52'}`}>
+                <img src={s.image} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+              </div>
+              <div className="flex items-start gap-3 border-b border-navy/20 py-4 transition-colors group-hover:border-moss">
+                <span className="pt-1 font-display text-xs text-moss">0{i + 1}</span>
+                <h3 className={`min-w-0 flex-1 font-bold leading-snug tracking-[-0.02em] transition-colors group-hover:text-moss ${i < 2 ? 'text-xl md:text-2xl' : 'text-base md:text-lg'}`}>
+                  {s.name}
+                </h3>
+                <Icon name="arrow" size={18} className="mt-1 shrink-0 transition-transform group-hover:translate-x-1" />
+              </div>
+            </a>
           ))}
         </div>
       </Container>
