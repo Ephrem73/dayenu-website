@@ -4,7 +4,8 @@ import { Icon, type IconName } from '../Icon'
 import { Button, Container, Kicker, PageHero, Reveal, h2Class } from '../ui'
 
 const channels: [IconName, string, string, string, string?, boolean?][] = [
-  ['phone', 'Call us', company.phones[0], `Also ${company.phones[1]}`, tel(company.phones[0])],
+  ['phone', 'Call us', company.phones[0], 'Direct phone & dispatch support', tel(company.phones[0])],
+  ['mail', 'Email us', company.email, 'Direct email enquiries', `mailto:${company.email}`],
   ['whatsapp', 'WhatsApp', company.whatsapp, 'Instant chat and urgent dispatch', company.whatsappUrl],
   ['telegram', 'Telegram', company.telegram, 'Official channel and operations desk', company.telegramUrl],
   ['pin', 'Head office', company.office, 'Ethiopia'],
@@ -18,8 +19,7 @@ const nextSteps = [
 ]
 
 const empty = { topic: '', name: '', organization: '', email: '', phone: '', via: 'Email', message: '' }
-// Change this address when Dayenu has its own inbox. The new address must activate the form.
-const contactInbox = 'ephrem@jirtuu.io'
+const contactInbox = company.email
 
 const inputClass = (error?: string | false) =>
   `contact-field mt-1.5 h-11 w-full rounded-lg border bg-white px-3.5 text-[0.9375rem] transition placeholder:text-navy/35 ${

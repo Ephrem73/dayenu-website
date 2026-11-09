@@ -134,7 +134,10 @@ export function Header({ route }: { route: string }) {
             <span className="hidden items-center gap-1.5 xl:flex">
               <Icon name="clock" size={13} /> Available 24/7
             </span>
-            <a href={tel(company.phones[0])} className="hidden items-center gap-1.5 hover:opacity-100 lg:flex">
+            <a href={`mailto:${company.email}`} className="hidden items-center gap-1.5 hover:opacity-100 lg:flex">
+              <Icon name="mail" size={13} /> {company.email}
+            </a>
+            <a href={tel(company.phones[0])} className="hidden items-center gap-1.5 hover:opacity-100 sm:flex">
               <Icon name="phone" size={13} /> {company.phones[0]}
             </a>
             <a
@@ -317,11 +320,16 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm text-white/70">
             {company.phones.map((p) => (
               <li key={p}>
-                <a href={tel(p)} className="transition-colors hover:text-white">
-                  {p}
+                <a href={tel(p)} className="inline-flex items-center gap-2 transition-colors hover:text-white">
+                  <Icon name="phone" size={14} /> {p}
                 </a>
               </li>
             ))}
+            <li>
+              <a href={`mailto:${company.email}`} className="inline-flex items-center gap-2 transition-colors hover:text-white">
+                <Icon name="mail" size={14} /> {company.email}
+              </a>
+            </li>
             <li>
               <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-emerald-400 transition-colors hover:text-white">
                 <Icon name="whatsapp" size={14} /> WhatsApp: {company.whatsapp}
@@ -346,10 +354,10 @@ export function Footer() {
           </ul>
         </div>
       </Container>
-      <Container className="overflow-hidden">
+      <Container className="overflow-hidden py-2 md:py-4">
         <p
           aria-hidden
-          className="select-none font-display text-[461px] font-extrabold leading-[0.8] tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.25px_rgba(182,228,140,.35)] transition-colors duration-700 hover:text-lime"
+          className="select-none font-display text-[clamp(3.5rem,14.5vw,13.5rem)] font-extrabold leading-[0.85] tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.25px_rgba(182,228,140,.35)] transition-colors duration-700 hover:text-lime whitespace-nowrap"
         >
           Dayenu
         </p>

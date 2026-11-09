@@ -35,9 +35,10 @@ export const company = {
   tradingName: "Dayenu Road and Environment Cleaning Service PLC",
   established: "2026",
   office: "Bole Medhaniyalem (Bole Sheger), Addis Ababa",
-  phones: ["+251 915 590357", "+251 912 088496"],
-  whatsapp: "+251 915 590357",
-  whatsappUrl: "https://wa.me/251915590357",
+  phones: ["09 04 77-73-01"],
+  email: "dayenuenviroment@gmail.com",
+  whatsapp: "09 04 77-73-01",
+  whatsappUrl: "https://wa.me/251904777301",
   telegram: "@DayenuCleaning",
   telegramUrl: "https://t.me/DayenuCleaning",
   tagline: "Clean environments. Safer communities. Accountable service delivery.",
@@ -45,7 +46,11 @@ export const company = {
   capabilityPdf: "/Dayenu_Capability_Statement.pdf",
 }
 
-export const tel = (phone: string) => `tel:${phone.replace(/\s/g, "")}`
+export const tel = (phone: string) => {
+  const digits = phone.replace(/[^\d+]/g, '')
+  if (digits.startsWith('0')) return `tel:+251${digits.slice(1)}`
+  return `tel:${digits}`
+}
 
 const u = (id: string, w = 1600) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=80&fit=crop&auto=format`
