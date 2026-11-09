@@ -354,10 +354,10 @@ export function Footer() {
           </ul>
         </div>
       </Container>
-      <Container className="overflow-hidden py-2 md:py-4">
+      <Container className="pt-2 pb-8 md:pb-12">
         <p
           aria-hidden
-          className="select-none font-display text-[clamp(3.5rem,14.5vw,13.5rem)] font-extrabold leading-[0.85] tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.25px_rgba(182,228,140,.35)] transition-colors duration-700 hover:text-lime whitespace-nowrap"
+          className="select-none font-display text-[clamp(3.5rem,14vw,13rem)] font-extrabold leading-normal tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.25px_rgba(182,228,140,.35)] transition-colors duration-700 hover:text-lime whitespace-nowrap"
         >
           Dayenu
         </p>
