@@ -555,12 +555,12 @@ function Journal() {
       ? livePosts.map((p, i) => ({
           slug: p.slug,
           title: p.Title || p.title || 'Untitled Article',
-          excerpt: p.excerpt,
+          excerpt: p.highlight || p.excerpt,
           tag: p.tag || 'Insights',
           read: calculateReadingTime(p.content),
-          date: formatPostDate(p.publishedDate || p.publishedAt) || (posts[i]?.date ?? 'October 2026'),
+          date: formatPostDate(p.date || p.publishedDate || p.publishedAt) || (posts[i]?.date ?? 'October 2026'),
           author: {
-            name: p.authorName || posts[i]?.author?.name || 'Ephrem Tadesse',
+            name: p.author || p.authorName || posts[i]?.author?.name || 'Ephrem Tadesse',
             role: p.authorRole || posts[i]?.author?.role || 'Operations Manager',
           },
           image: getStrapiMediaUrl(p.coverImage, 'medium'),

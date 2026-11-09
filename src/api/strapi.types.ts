@@ -46,14 +46,17 @@ export interface BlogPost {
   Title: string
   title?: string // Convenience alias
   slug: string
-  excerpt: string
+  highlight?: string // Highlight summary
+  excerpt?: string // Backward-compatible alias
   content: string
-  publishedDate: string
+  date?: string
+  publishedDate?: string
   createdAt: string
   updatedAt: string
   publishedAt: string
   coverImage: StrapiMedia | null
   tag?: string
+  author?: string
   authorName?: string
   authorRole?: string
 }
@@ -80,4 +83,3 @@ export interface StrapiResponse<T> {
 
 export type BlogPostListResponse = StrapiResponse<BlogPost[]>
 export type BlogPostSingleResponse = StrapiResponse<BlogPost[]>
-

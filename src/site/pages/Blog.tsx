@@ -87,6 +87,7 @@ export function Blog() {
     Title: p.title,
     title: p.title,
     slug: p.slug,
+    highlight: p.excerpt,
     excerpt: p.excerpt,
     content: p.body.join('\n\n'),
     publishedDate: p.date,
@@ -94,8 +95,10 @@ export function Blog() {
     updatedAt: p.date,
     publishedAt: p.date,
     tag: p.tag,
+    author: p.author.name,
     authorName: p.author.name,
     authorRole: p.author.role,
+    date: p.date,
     coverImage: {
       id: i + 1,
       documentId: p.slug,
@@ -228,9 +231,12 @@ export function Blog() {
               {filteredPosts.map((p, i) => {
                 const coverUrl = getStrapiMediaUrl(p.coverImage, i === 0 ? 'large' : 'medium')
                 const displayTitle = p.Title || p.title || 'Untitled Article'
-                const displayDate = formatPostDate(p.publishedDate || p.publishedAt)
+                const displayDate = formatPostDate(p.date || p.publishedDate || p.publishedAt)
                 const readingTime = calculateReadingTime(p.content)
                 const tag = p.tag || 'Insights'
+                const displayExcerpt = p.highlight || p.excerpt || ''
+                const authorName = p.author || p.authorName || (i % 2 === 0 ? 'Ephrem Tadesse' : 'Yared Bekele')
+                const authorRole = p.authorRole || (i % 2 === 0 ? 'Operations Manager' : 'Safety Officer')
 
                 return (
                   <a
@@ -268,15 +274,15 @@ export function Blog() {
                     >
                       {displayTitle}
                     </h2>
-                    {p.excerpt && <p className="mt-2 text-sm text-navy/65 line-clamp-3">{p.excerpt}</p>}
+                    {displayExcerpt && <p className="mt-2 text-sm text-navy/65 line-clamp-3">{displayExcerpt}</p>}
                     <div className="mt-3.5 flex items-center justify-between border-t border-navy/10 pt-3">
                       <div className="flex items-center gap-2">
                         <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-lime/40 text-[0.6875rem] font-bold text-navy">
-                          {(p.authorName || 'Ephrem Tadesse').charAt(0)}
+                          {authorName.charAt(0)}
                         </span>
                         <div className="min-w-0">
-                          <p className="text-xs font-bold text-navy leading-none">{p.authorName || (i % 2 === 0 ? 'Ephrem Tadesse' : 'Yared Bekele')}</p>
-                          <p className="text-[0.625rem] text-navy/55">{p.authorRole || (i % 2 === 0 ? 'Operations Manager' : 'Safety Officer')}</p>
+                          <p className="text-xs font-bold text-navy leading-none">{authorName}</p>
+                          <p className="text-[0.625rem] text-navy/55">{authorRole}</p>
                         </div>
                       </div>
                       <span className="inline-flex items-center gap-1 font-display text-[0.8125rem] font-semibold text-navy">
@@ -384,9 +390,12 @@ export function Article({ slug }: { slug: string }) {
 
   const coverUrl = getStrapiMediaUrl(post.coverImage, 'large')
   const displayTitle = post.Title || post.title || 'Untitled Article'
-  const displayDate = formatPostDate(post.publishedDate || post.publishedAt)
+  const displayDate = formatPostDate(post.date || post.publishedDate || post.publishedAt)
+  const displayExcerpt = post.highlight || post.excerpt || ''
   const readingTime = calculateReadingTime(post.content)
   const tag = post.tag || 'Insights'
+  const authorName = post.author || post.authorName || 'Ephrem Tadesse'
+  const authorRole = post.authorRole || 'Operations Manager'
 
   return (
     <>
@@ -407,14 +416,14 @@ export function Article({ slug }: { slug: string }) {
           <h1 className="mt-4 text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-navy md:text-[2.75rem]">
             {displayTitle}
           </h1>
-          {post.excerpt && <p className="mt-4 text-lg text-navy/70 leading-relaxed">{post.excerpt}</p>}
+          {displayExcerpt && <p className="mt-4 text-lg text-navy/70 leading-relaxed">{displayExcerpt}</p>}
           <div className="mt-6 flex items-center gap-3.5 rounded-xl border border-navy/10 bg-paper p-3.5 max-w-md">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-lime font-display text-sm font-bold text-navy">
-              {(post.authorName || 'Ephrem Tadesse').charAt(0)}
+              {authorName.charAt(0)}
             </span>
             <div>
-              <p className="font-display text-sm font-bold text-navy">{post.authorName || 'Ephrem Tadesse'}</p>
-              <p className="text-xs text-navy/60">{post.authorRole || 'Operations Manager'} · {displayDate || 'October 2026'}</p>
+              <p className="font-display text-sm font-bold text-navy">{authorName}</p>
+              <p className="text-xs text-navy/60">{authorRole} · {displayDate || 'October 2026'}</p>
             </div>
           </div>
         </Container>

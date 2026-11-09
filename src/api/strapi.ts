@@ -58,13 +58,26 @@ export function getStrapiMediaUrl(
 }
 
 /**
- * Normalizes a BlogPost from Strapi 5 so fields like title/Title are accessible uniformly.
+ * Normalizes a BlogPost from Strapi 5 so fields like title, highlight, author, and date are accessible uniformly.
  */
 function normalizePost(post: BlogPost): BlogPost {
+  const title = post.Title || post.title || 'Untitled Post'
+  const highlight = post.highlight || post.excerpt || ''
+  const author = post.author || post.authorName || 'Ephrem Tadesse'
+  const authorRole = post.authorRole || 'Operations Manager'
+  const displayDate = post.date || post.publishedDate || post.publishedAt || ''
+
   return {
     ...post,
-    title: post.Title || post.title || 'Untitled Post',
-    Title: post.Title || post.title || 'Untitled Post',
+    title,
+    Title: title,
+    highlight,
+    excerpt: highlight,
+    author,
+    authorName: author,
+    authorRole,
+    date: displayDate,
+    publishedDate: displayDate,
   }
 }
 
@@ -137,7 +150,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 }
 
 /**
- * Format ISO datetime string to a human-readable date.
+ * Format ISO datetime string or date string to a human-readable date.
  * e.g. "October 23, 2026"
  */
 export function formatPostDate(dateStr?: string): string {
@@ -164,4 +177,3 @@ export function calculateReadingTime(content?: string): string {
   const minutes = Math.max(1, Math.ceil(wordCount / 200))
   return `${minutes} min read`
 }
-
