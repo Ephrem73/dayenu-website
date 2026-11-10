@@ -145,7 +145,9 @@ export function Header({ route }: { route: string }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
-              className="hidden items-center gap-1 text-[0.75rem] font-semibold text-emerald-600 transition hover:opacity-100 lg:inline-flex"
+              className={`hidden items-center gap-1 text-[0.75rem] font-semibold transition hover:opacity-100 lg:inline-flex ${
+                solid ? 'text-emerald-600' : 'text-white'
+              }`}
             >
               <Icon name="whatsapp" size={13} /> WhatsApp
             </a>
@@ -154,7 +156,9 @@ export function Header({ route }: { route: string }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Telegram"
-              className="hidden items-center gap-1 text-[0.75rem] font-semibold text-sky-600 transition hover:opacity-100 lg:inline-flex"
+              className={`hidden items-center gap-1 text-[0.75rem] font-semibold transition hover:opacity-100 lg:inline-flex ${
+                solid ? 'text-sky-600' : 'text-white'
+              }`}
             >
               <Icon name="telegram" size={13} /> Telegram
             </a>

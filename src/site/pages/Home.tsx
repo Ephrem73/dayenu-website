@@ -74,8 +74,7 @@ function Hero() {
       </Container>
 
       <Container className="hero-content flex flex-1 flex-col pt-16 md:pt-20 lg:pt-22">
-        <div className="flex items-start justify-between gap-6" style={{ animation: 'fade .8s 1.1s ease both' }}>
-          <Kicker light>Dayenu · Road & Environment Cleaning Service PLC</Kicker>
+        <div className="flex items-start justify-end gap-6" style={{ animation: 'fade .8s 1.1s ease both' }}>
           <p aria-live="polite" className="hidden text-right font-display text-xs text-white/70 md:block">
             <span className="text-lime">N° 0{active + 1}</span> <span className="opacity-50">/ 03</span>
             <span key={current.label} className="fade-in mt-0.5 block text-white">

@@ -456,9 +456,11 @@ export function Article({ slug }: { slug: string }) {
           <Container>
             <h2 className="mb-7 text-2xl font-extrabold text-navy">Keep reading</h2>
             <div className="grid gap-6 md:grid-cols-2">
-              {morePosts.map((p) => {
+              {morePosts.map((p, idx) => {
                 const moreCoverUrl = getStrapiMediaUrl(p.coverImage, 'medium')
                 const moreTitle = p.Title || p.title || 'Untitled'
+                const moreAuthorName = p.author || p.authorName || (idx % 2 === 0 ? 'Ephrem Tadesse' : 'Yared Bekele')
+                const moreAuthorRole = p.authorRole || (idx % 2 === 0 ? 'Operations Manager' : 'Safety Officer')
                 return (
                   <a key={p.slug} href={`#/blog/${p.slug}`} className="group">
                     <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-navy/10">
@@ -475,6 +477,20 @@ export function Article({ slug }: { slug: string }) {
                       {p.tag || 'Insights'} · {calculateReadingTime(p.content)}
                     </p>
                     <h3 className="mt-1 text-lg font-bold text-navy group-hover:underline">{moreTitle}</h3>
+                    <div className="mt-3.5 flex items-center justify-between border-t border-navy/10 pt-3">
+                      <div className="flex items-center gap-2">
+                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-lime/40 text-[0.6875rem] font-bold text-navy">
+                          {moreAuthorName.charAt(0)}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-navy leading-none">{moreAuthorName}</p>
+                          <p className="text-[0.625rem] text-navy/55">{moreAuthorRole}</p>
+                        </div>
+                      </div>
+                      <span className="inline-flex items-center gap-1 font-display text-[0.8125rem] font-semibold text-navy">
+                        Read <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
+                      </span>
+                    </div>
                   </a>
                 )
               })}
