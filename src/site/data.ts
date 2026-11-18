@@ -187,6 +187,24 @@ export const services: Service[] = [
     ],
     for: "Parks, corridors and compounds",
   },
+  {
+    id: "recycling",
+    name: "Waste Segregation & Recyclables",
+    icon: "recycle",
+    blurb:
+      "Source segregation, covered transfer and certified recycling partnerships that divert reusable waste from municipal landfills.",
+    detail:
+      "Structured waste segregation and recycling programs for commercial buildings, industrial compounds, campuses and municipal zones. We provide color-coded collection, on-site sorting, covered transport and certified transfer to local recycling processors.",
+    image: img.crew,
+    alt: "Dayenu team sorting recyclable plastics and glass bottles into designated bins in Addis Ababa",
+    includes: [
+      "On-site source segregation (plastics, paper, cardboard, metals)",
+      "Color-coded waste receptacles & sorting stations",
+      "Covered, contamination-free collection & transfer",
+      "Certified recycling facility handover & diversion reporting",
+    ],
+    for: "Commercial towers, industrial compounds & municipal programs",
+  },
 ]
 
 export const posts: Post[] = [

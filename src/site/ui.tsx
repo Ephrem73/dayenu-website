@@ -8,7 +8,9 @@ export function useHashRoute() {
   useEffect(() => {
     const onChange = () => {
       setHash(window.location.hash || '#/')
-      window.scrollTo({ top: 0 })
+      if (!window.location.hash.includes('testimonials')) {
+        window.scrollTo({ top: 0 })
+      }
     }
     window.addEventListener('hashchange', onChange)
     return () => window.removeEventListener('hashchange', onChange)
@@ -203,36 +205,17 @@ export function ScrollText({ parts, className = '' }: { parts: [string, boolean?
 export function ContactCta({ title = 'Tell us about your site. We will plan the rest.' }: { title?: string }) {
   return (
     <section className="relative overflow-hidden bg-lime">
-      <Container className="relative grid items-center gap-8 py-14 md:grid-cols-[1fr_auto] md:py-24">
-        <div>
-          <p className="kicker text-navy/70">Get in touch</p>
-          <h2 className={`mt-4 max-w-xl text-navy ${h2Class}`}>{title}</h2>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <Button variant="navy" href="#/contact">
-              Request a site assessment
-            </Button>
-            <Button variant="ghost" href="#/contact?topic=Pilot" className="border-navy/30 text-navy hover:bg-navy/10">
-              Start a pilot area
-            </Button>
-          </div>
+      <Container className="relative flex flex-col items-center justify-center py-16 text-center md:py-24">
+        <p className="kicker text-navy/70">Get in touch</p>
+        <h2 className={`mt-4 max-w-2xl text-center text-navy ${h2Class}`}>{title}</h2>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
+          <Button variant="navy" href="#/contact">
+            Request a site assessment
+          </Button>
+          <Button variant="ghost" href="#/contact?topic=Pilot" className="border-navy/30 text-navy hover:bg-navy/10">
+            Start a pilot area
+          </Button>
         </div>
-        <a
-          href="#/contact"
-          aria-label="Request a site assessment"
-          className="group relative hidden h-32 w-32 place-items-center rounded-full bg-navy text-lime transition-transform duration-500 hover:scale-105 md:grid"
-        >
-          <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full" aria-hidden>
-            <defs>
-              <path id="cta-circle" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0" />
-            </defs>
-            <text className="fill-current font-display text-[0.9375rem] font-semibold tracking-[0.32em] uppercase">
-              <textPath href="#cta-circle">Site Assessment · Available 24/7 ·</textPath>
-            </text>
-          </svg>
-          <span className="font-display text-2xl transition-transform duration-300 group-hover:-rotate-45" aria-hidden>
-            →
-          </span>
-        </a>
       </Container>
     </section>
   )

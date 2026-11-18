@@ -21,6 +21,62 @@ const setup: [IconName, string, string][] = [
   ],
 ]
 
+const recyclableStreams = [
+  {
+    tag: 'Plastics & Polymers',
+    badge: 'PET · HDPE · LDPE',
+    desc: 'Clean clear & amber PET bottles, rigid HDPE jerrycans, plastic crates, and clean industrial shrink wrap/stretch film.',
+    handling: 'Segregated into designated blue/green stations, rinsed, flattened, and baled to reduce volume.',
+  },
+  {
+    tag: 'Paper & Fiber',
+    badge: 'Cardboard · Kraft · Office',
+    desc: 'Corrugated cartons, packaging boxes, kraft wrapping paper, clean discarded office sheets, and archival records.',
+    handling: 'Bundled dry and protected from moisture or food grease contamination for clean pulping recovery.',
+  },
+  {
+    tag: 'Metals & Scrap',
+    badge: 'Aluminum · Steel · Cans',
+    desc: 'Aluminum beverage cans, clean tinplate containers, metal straps, clean fabrication turnings, and discarded wire.',
+    handling: 'Magnetic segregation, crushed and consolidated for direct delivery to Ethiopian smelting & foundries.',
+  },
+  {
+    tag: 'Glass & Inorganics',
+    badge: 'Beverage Bottles · Cullet',
+    desc: 'Intact returnable and non-returnable glass bottles (beverage, food), separated by clear, green, and amber shades.',
+    handling: 'Collected in reinforced crates to eliminate hazardous shards, then transferred for industrial bottle re-use.',
+  },
+]
+
+const recoverySteps = [
+  {
+    step: '01',
+    title: 'Source Segregation & Bin Placement',
+    desc: 'We supply and position color-coded waste stations, heavy-duty liners, and bilingual visual sorting guides across your facilities.',
+  },
+  {
+    step: '02',
+    title: 'Daily Supervised Sorting & Weighing',
+    desc: 'Trained Dayenu environmental stewards audit sorting stations daily, removing contaminants and logging batch weights by material type.',
+  },
+  {
+    step: '03',
+    title: 'Covered Transfer & Compaction',
+    desc: 'Materials are moved in clean, enclosed vehicles to aggregation hubs where high-pressure baling prepares batches for transport.',
+  },
+  {
+    step: '04',
+    title: 'Certified Recycling Offtake & ESG Reporting',
+    desc: 'Consignments are handed over to accredited Ethiopian recycling partners, backed by verifiable weight tickets and monthly diversion reports.',
+  },
+]
+
+const diversionMetrics = [
+  { value: '65%+', label: 'Landfill Diversion', note: 'Reduction in mixed compound waste sent to municipal dumpsites.' },
+  { value: '100%', label: 'Traceable Transfer', note: 'Every consignment weighed, manifest-logged, and verified.' },
+  { value: 'Monthly', label: 'Diversion Reports', note: 'Auditable certificates delivered to your EHS & facility leads.' },
+]
+
 export default function Services({ focus }: { focus?: string }) {
   const [openFaq, setOpenFaq] = useState(0)
   const [current, setCurrent] = useState(services[0].id)
@@ -48,12 +104,12 @@ export default function Services({ focus }: { focus?: string }) {
         kicker="Services"
         title={
           <>
-            Six services, one <span className="text-lime">accountable team.</span>
+            Seven services, one <span className="text-lime">accountable team.</span>
           </>
         }
         image={img.sweeperTruck}
       >
-        Road, environmental, facility and greenery services for public and institutional clients. Each service is delivered to a confirmed scope, schedule
+        Road, environmental, facility, greenery and recycling services for public and institutional clients. Each service is delivered to a confirmed scope, schedule
         and performance standard.
       </PageHero>
 
@@ -114,6 +170,86 @@ export default function Services({ focus }: { focus?: string }) {
               </a>
             </Reveal>
           </Container>
+
+          {s.id === 'recycling' && (
+            <Container className="mt-16 border-t border-navy/10 pt-14 lg:mt-24 lg:pt-20">
+              <Reveal>
+                <div className="max-w-3xl">
+                  <Kicker>Circular Economy & Waste Diversion</Kicker>
+                  <h3 className="mt-4 text-2xl font-extrabold tracking-tight text-navy sm:text-3xl lg:text-4xl">
+                    Source segregation built for circular recovery in Addis Ababa.
+                  </h3>
+                  <p className="mt-3 text-base leading-relaxed text-navy/70 md:text-lg">
+                    Rather than sending mixed waste to municipal landfills, Dayenu equips commercial towers, industrial campuses, and public corridors with managed on-site sorting infrastructure and certified recycling offtake partners.
+                  </p>
+                </div>
+              </Reveal>
+
+              <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {recyclableStreams.map((stream, idx) => (
+                  <Reveal key={stream.tag} delay={idx * 60}>
+                    <div className="flex h-full flex-col justify-between rounded-2xl border border-navy/10 bg-white p-6 shadow-sm transition hover:border-moss hover:shadow-md">
+                      <div>
+                        <span className="inline-block rounded-full bg-lime-soft px-3 py-1 font-display text-[0.6875rem] font-bold tracking-wider text-moss uppercase">
+                          {stream.badge}
+                        </span>
+                        <h4 className="mt-3 text-lg font-bold text-navy">{stream.tag}</h4>
+                        <p className="mt-2 text-sm leading-relaxed text-navy/70">{stream.desc}</p>
+                      </div>
+                      <div className="mt-5 border-t border-navy/10 pt-4 text-xs font-medium text-navy/60">
+                        <span className="font-semibold text-navy">Handling:</span> {stream.handling}
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              <Reveal delay={150}>
+                <div className="mt-14 rounded-3xl bg-navy p-8 text-white lg:p-12">
+                  <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                    <div>
+                      <span className="kicker !text-lime">Recovery Chain</span>
+                      <h4 className="mt-2 text-xl font-bold sm:text-2xl lg:text-3xl">
+                        Our 4-step closed-loop recovery process
+                      </h4>
+                    </div>
+                    <span className="font-display text-xs font-semibold text-white/50 uppercase tracking-widest">
+                      Zero Contamination Protocol
+                    </span>
+                  </div>
+                  <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    {recoverySteps.map((step) => (
+                      <div key={step.step} className="border-t border-white/15 pt-5">
+                        <span className="font-display text-2xl font-black text-lime">{step.step}</span>
+                        <h5 className="mt-2 text-base font-bold text-white">{step.title}</h5>
+                        <p className="mt-2 text-xs leading-relaxed text-white/65">{step.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-10 grid gap-6 border-t border-white/15 pt-8 lg:grid-cols-12 lg:items-center">
+                    <div className="grid grid-cols-3 gap-4 lg:col-span-8">
+                      {diversionMetrics.map((metric) => (
+                        <div key={metric.label}>
+                          <p className="font-display text-2xl font-extrabold text-lime lg:text-3xl">{metric.value}</p>
+                          <p className="mt-1 text-xs font-bold text-white">{metric.label}</p>
+                          <p className="mt-0.5 hidden text-[0.6875rem] text-white/50 sm:block">{metric.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="lg:col-span-4 lg:text-right">
+                      <a
+                        href="#/contact?service=recycling"
+                        className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-lime px-6 font-display text-sm font-bold text-navy transition hover:bg-white"
+                      >
+                        Book a waste audit <span>→</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </Container>
+          )}
         </section>
       ))}
 

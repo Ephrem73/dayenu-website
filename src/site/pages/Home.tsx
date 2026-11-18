@@ -9,15 +9,42 @@ import { Button, Container, ContactCta, Kicker, Reveal, ScrollText, SectionHead,
 const SLIDE_MS = 7000
 
 const slides = [
-  { label: 'Roads & corridors', href: '#/services/road', image: img.crew },
-  { label: 'Institutions & facilities', href: '#/services/facilities', image: img.facility },
-  { label: 'Parks & greenery', href: '#/services/landscaping', image: img.greenery },
+  {
+    label: 'Roads & corridors',
+    href: '#/services/road',
+    image: img.crew,
+    line1: 'Cleaner streets',
+    line2Prefix: 'Safer ',
+    highlight: 'cities.',
+  },
+  {
+    label: 'Institutions & facilities',
+    href: '#/services/facilities',
+    image: img.facility,
+    line1: 'Cleaner facilities',
+    line2Prefix: 'Safer ',
+    highlight: 'institutions.',
+  },
+  {
+    label: 'Parks & greenery',
+    href: '#/services/landscaping',
+    image: img.greenery,
+    line1: 'Greener parks',
+    line2Prefix: 'Vibrant ',
+    highlight: 'greenery.',
+  },
 ]
 
 function Hero() {
   const [active, setActive] = useState(0)
   const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const [isInitial, setIsInitial] = useState(true)
   const current = slides[active]
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsInitial(false), 2200)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <section
@@ -49,19 +76,30 @@ function Hero() {
 
       <Container className="hero-content flex flex-1 flex-col pt-16 md:pt-20 lg:pt-22">
         <div className="hero-main mx-auto flex flex-1 flex-col items-center justify-center text-center pb-6 md:pb-8">
-          <h1 className="hero-heading text-center text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]">
+          <h1
+            key={active}
+            className="hero-heading text-center text-[clamp(2.5rem,7vw,6.5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]"
+          >
             <span className="block overflow-hidden pb-[0.06em]">
-              <span className="rise block" style={{ animationDelay: '.8s' }}>
-                Cleaner streets<span className="text-lime">.</span>
+              <span className="rise block" style={{ animationDelay: isInitial ? '.8s' : '0s' }}>
+                {current.line1}<span className="text-lime">.</span>
               </span>
             </span>
             <span className="block overflow-hidden pb-[0.12em]">
-              <span className="rise block" style={{ animationDelay: '.95s' }}>
-                Safer{' '}
+              <span className="rise block" style={{ animationDelay: isInitial ? '.95s' : '.12s' }}>
+                {current.line2Prefix}
                 <span className="relative inline-block text-lime">
-                  cities.
+                  {current.highlight}
                   <svg viewBox="0 0 400 30" preserveAspectRatio="none" className="absolute -bottom-[0.06em] left-0 h-[0.14em] w-full overflow-visible" aria-hidden>
-                    <path className="draw" d="M4 20 C 90 6, 220 4, 396 14" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
+                    <path
+                      className="draw"
+                      style={{ animationDelay: isInitial ? '1.6s' : '.3s' }}
+                      d="M4 20 C 90 6, 220 4, 396 14"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="7"
+                      strokeLinecap="round"
+                    />
                   </svg>
                 </span>
               </span>
@@ -170,46 +208,6 @@ const sectors = [
   ['NGOs & international organizations', img.shovel, '#/contact', 'Compound cleaning, community cleanup and environmental programs with transparent reporting.'],
 ]
 
-function ClientLogos() {
-  const partners = [
-    { name: 'Addis Ababa City Administration', type: 'Municipal Services' },
-    { name: 'Corridor Development Programs', type: 'Urban Corridors' },
-    { name: 'Addis Ababa City Roads Authority', type: 'Infrastructure & Roads' },
-    { name: 'Industrial Parks Development Corp.', type: 'Industrial & Logistics' },
-    { name: 'Commercial Towers & Districts', type: 'Commercial Facilities' },
-    { name: 'Wisdom Business Group Sites', type: 'Corporate Network' },
-  ]
-
-  return (
-    <section className="border-b border-navy/10 bg-paper py-10">
-      <Container>
-        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-          <div>
-            <p className="kicker !text-[0.6875rem] text-navy/55">Trusted by public & institutional partners</p>
-            <h3 className="mt-1 text-lg font-bold text-navy md:text-xl">Built for municipal, corridor & institutional accountability</h3>
-          </div>
-        </div>
-        <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {partners.map((p) => (
-            <div
-              key={p.name}
-              className="flex flex-col justify-between rounded-xl border border-navy/10 bg-white p-3.5 shadow-sm transition-all duration-300 hover:border-lime hover:shadow-md"
-            >
-              <div className="flex items-center gap-2">
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-lime/30 text-moss">
-                  <Icon name="shield" size={13} />
-                </span>
-                <span className="text-[0.625rem] font-bold uppercase tracking-wider text-navy/45">{p.type}</span>
-              </div>
-              <p className="mt-3 text-xs font-bold leading-snug text-navy">{p.name}</p>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  )
-}
-
 function Sectors() {
   const [active, setActive] = useState(0)
   return (
@@ -276,7 +274,7 @@ function ServicesGrid() {
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHead
             kicker="Our services"
-            title="Six service areas, one accountable team."
+            title="Seven service areas, one accountable team."
             body="Reliable cleaning and maintenance for the places our communities use every day."
           />
           <a href="#/services" className="group inline-flex shrink-0 items-center gap-3 self-start border-b border-navy pb-2 text-sm font-semibold transition-colors hover:text-moss md:self-auto">
@@ -288,14 +286,34 @@ function ServicesGrid() {
             <a
               key={s.id}
               href={`#/services/${s.id}`}
-              className={`group min-w-0 text-navy ${i === 0 ? 'lg:col-span-7' : i === 1 ? 'lg:col-span-5' : 'lg:col-span-3'}`}
+              className={`group min-w-0 text-navy ${
+                i === 0
+                  ? 'lg:col-span-7'
+                  : i === 1
+                  ? 'lg:col-span-5'
+                  : i >= 2 && i < 5
+                  ? 'lg:col-span-4'
+                  : 'lg:col-span-6'
+              }`}
             >
-              <div className={`overflow-hidden bg-navy/10 ${i < 2 ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-56 sm:h-64 lg:h-52'}`}>
+              <div
+                className={`overflow-hidden bg-navy/10 ${
+                  i < 2
+                    ? 'h-64 sm:h-72 lg:h-[22rem]'
+                    : i >= 2 && i < 5
+                    ? 'h-56 sm:h-64 lg:h-56'
+                    : 'h-60 sm:h-68 lg:h-64'
+                }`}
+              >
                 <img src={s.image} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
               </div>
               <div className="flex items-start gap-3 border-b border-navy/20 py-4 transition-colors group-hover:border-moss">
                 <span className="pt-1 font-display text-xs text-moss">0{i + 1}</span>
-                <h3 className={`min-w-0 flex-1 font-bold leading-snug tracking-[-0.02em] transition-colors group-hover:text-moss ${i < 2 ? 'text-xl md:text-2xl' : 'text-base md:text-lg'}`}>
+                <h3
+                  className={`min-w-0 flex-1 font-bold leading-snug tracking-[-0.02em] transition-colors group-hover:text-moss ${
+                    i < 2 || i >= 5 ? 'text-xl md:text-2xl' : 'text-base md:text-lg'
+                  }`}
+                >
                   {s.name}
                 </h3>
                 <Icon name="arrow" size={18} className="mt-1 shrink-0 transition-transform group-hover:translate-x-1" />
@@ -444,6 +462,170 @@ function HowItWorks() {
   )
 }
 
+const testimonials = [
+  {
+    quote:
+      'Dayenu transformed the daily cleaning standards of our commercial complex. Their supervisors ensure every shift is accounted for, and our tenants consistently notice the cleanliness of our walkways, lobbies, and perimeter roads.',
+    author: 'Dawit Haile',
+    role: 'Facilities & Operations Director',
+    organization: 'Bole Sheger Commercial Center',
+    service: 'Facilities & Institutional Cleaning',
+    avatar: 'DH',
+    image: '/dayenu/testimonials/dawit-haile.jpg',
+    rating: 5,
+  },
+  {
+    quote:
+      'For our corridor development projects, reliability and rapid mobilization were essential. Dayenu’s road-sweeping crew delivered mapped route schedules and debris clearance around heavy traffic without disruption.',
+    author: 'Selamawit Kebede',
+    role: 'Infrastructure Project Coordinator',
+    organization: 'Urban Corridor Initiative',
+    service: 'Road & Street Cleaning',
+    avatar: 'SK',
+    image: '/dayenu/testimonials/selamawit-kebede.jpg',
+    rating: 5,
+  },
+  {
+    quote:
+      'What sets Dayenu apart is their reporting. We receive verifiable attendance logs and supervisor shift checklists every week. Their team takes complete ownership of compound maintenance and waste management.',
+    author: 'Yohannes Bekele',
+    role: 'EHS & Administration Manager',
+    organization: 'East Africa Industrial Logistics Park',
+    service: 'Industrial & Compound Sanitation',
+    avatar: 'YB',
+    image: '/dayenu/testimonials/yohannes-bekele.jpg',
+    rating: 5,
+  },
+  {
+    quote:
+      'Managing urban greenery and public corridors requires constant care. Dayenu’s landscaping and tree-care crews keep our civic grounds vibrant and healthy, with transparent supervisor oversight every shift.',
+    author: 'Biruk Alemu',
+    role: 'Urban Parks & Recreation Director',
+    organization: 'Addis Ababa Greenery Development Agency',
+    service: 'Landscaping & Urban Greenery',
+    avatar: 'BA',
+    image: '/dayenu/testimonials/biruk-alemu.jpg',
+    rating: 5,
+  },
+  {
+    quote:
+      'Following the construction handover of our specialist medical complex, Dayenu completed deep dust extraction and final sanitization on schedule. Their teams follow hospital-grade cleaning and safety standards.',
+    author: 'Dr. Rahel Desta',
+    role: 'Administrative Medical Director',
+    organization: 'Hayat Specialist Medical Center',
+    service: 'Post-Construction & Healthcare Cleaning',
+    avatar: 'RD',
+    image: '/dayenu/testimonials/rahel-desta.jpg',
+    rating: 5,
+  },
+]
+
+function StarRating({ count = 5 }: { count?: number }) {
+  return (
+    <div className="flex items-center gap-1" aria-label={`${count} out of 5 stars`}>
+      {Array.from({ length: count }).map((_, i) => (
+        <svg key={i} className="h-4 w-4 fill-amber-400 text-amber-400" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+    </div>
+  )
+}
+
+function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
+  return (
+    <div className="relative flex w-[320px] sm:w-[380px] md:w-[420px] shrink-0 flex-col justify-between rounded-2xl border border-navy/10 bg-white p-6 md:p-8 shadow-sm transition-all duration-300 hover:border-lime hover:shadow-lg">
+      <div>
+        <div className="flex items-center justify-between gap-3 pb-4">
+          <StarRating count={t.rating} />
+          <span className="rounded-full bg-lime/30 px-2.5 py-1 text-[0.6875rem] font-bold tracking-wide text-navy">
+            {t.service}
+          </span>
+        </div>
+        <div className="relative mt-2">
+          <svg className="mb-3 h-8 w-8 text-lime/45" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+          </svg>
+          <p className="text-[0.9375rem] leading-relaxed text-navy/85 italic md:text-base">
+            "{t.quote}"
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-6 flex items-center gap-3.5 border-t border-navy/10 pt-5">
+        <img
+          src={t.image}
+          alt={t.author}
+          onError={(e) => {
+            e.currentTarget.style.display = 'none'
+            const fallback = e.currentTarget.nextElementSibling as HTMLElement
+            if (fallback) fallback.style.display = 'grid'
+          }}
+          className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-lime/60 shadow-sm"
+        />
+        <span className="hidden h-12 w-12 shrink-0 place-items-center rounded-full bg-navy font-display text-sm font-bold text-lime shadow-sm">
+          {t.avatar}
+        </span>
+        <div className="min-w-0">
+          <p className="font-display text-sm font-bold leading-tight text-navy md:text-base">{t.author}</p>
+          <p className="text-xs text-navy/60">{t.role}</p>
+          <p className="mt-0.5 truncate text-xs font-semibold text-moss">{t.organization}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Testimonials() {
+  const marqueeList = [...testimonials, ...testimonials]
+
+  return (
+    <section id="testimonials" className="scroll-mt-20 border-b border-navy/10 bg-paper py-16 md:py-24">
+      <Container>
+        <div className="mx-auto max-w-3xl text-center">
+          <Kicker className="justify-center">Testimonials</Kicker>
+        </div>
+      </Container>
+
+      {/* Infinite continuous slider, pauses on hover */}
+      <div className="relative mt-8 w-full overflow-hidden">
+        {/* Soft edge blur fades */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-paper to-transparent md:w-28" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-paper to-transparent md:w-28" />
+
+        <div className="animate-marquee flex gap-6 px-4 py-2">
+          {marqueeList.map((t, idx) => (
+            <TestimonialCard key={`${t.author}-${idx}`} t={t} />
+          ))}
+        </div>
+      </div>
+
+      <Container>
+        <div className="mt-12 rounded-2xl border border-navy/10 bg-white/70 p-6 md:p-8">
+          <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
+            <div>
+              <p className="font-display text-2xl font-extrabold text-navy md:text-3xl">100%</p>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-navy/55">Supervised shifts</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-extrabold text-navy md:text-3xl">24/7</p>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-navy/55">Operations & support</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-extrabold text-navy md:text-3xl">Daily</p>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-navy/55">Verified checklists</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-extrabold text-navy md:text-3xl">Zero</p>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-navy/55">Guesswork reporting</p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 function AboutTeaser() {
   return (
     <section className="bg-lime py-16 md:py-28">
@@ -564,16 +746,29 @@ function Journal() {
 }
 
 export default function Home() {
+  useEffect(() => {
+    const handleScrollToTestimonials = () => {
+      if (window.location.hash.includes('testimonials')) {
+        setTimeout(() => {
+          document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' })
+        }, 120)
+      }
+    }
+    handleScrollToTestimonials()
+    window.addEventListener('hashchange', handleScrollToTestimonials)
+    return () => window.removeEventListener('hashchange', handleScrollToTestimonials)
+  }, [])
+
   return (
     <>
       <Hero />
-      <ClientLogos />
       <AtAGlance />
       <Sectors />
       <ServicesGrid />
       <WhyDayenu />
       <Results />
       <HowItWorks />
+      <Testimonials />
       <AboutTeaser />
       <Journal />
       <ContactCta />

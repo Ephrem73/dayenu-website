@@ -7,6 +7,7 @@ const mark = '/dayenu/mark.png'
 const logo = '/dayenu/logo.png'
 
 const links: [string, string][] = [
+  ['Testimonials', '#testimonials'],
   ['About', '#/about'],
   ['Journal', '#/blog'],
 ]
@@ -25,7 +26,7 @@ function MegaMenu({ onNavigate }: { onNavigate: () => void }) {
             <p className="kicker !text-[0.625rem] text-moss">What we do</p>
             <p className="mt-1 font-display text-lg font-bold tracking-tight text-navy">Services for cleaner spaces<span className="text-moss">.</span></p>
           </div>
-          <span className="hidden pb-0.5 text-xs font-medium text-navy/45 lg:block">01 — 06</span>
+          <span className="hidden pb-0.5 text-xs font-medium text-navy/45 lg:block">01 — 0{services.length}</span>
         </div>
         <ul className="grid gap-1 lg:grid-cols-2 lg:gap-x-2">
           {services.map((item, i) => (
@@ -61,7 +62,7 @@ function MegaMenu({ onNavigate }: { onNavigate: () => void }) {
         <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,19,50,.3)_0%,rgba(10,19,50,.65)_40%,rgba(10,19,50,.97)_100%)]" />
         <div className="flex items-center justify-between gap-3">
           <span className="rounded-full border border-white/30 bg-navy/30 px-3 py-1.5 text-[0.625rem] font-bold tracking-[0.12em] uppercase backdrop-blur-sm">Service spotlight</span>
-          <span className="text-xs font-semibold text-white/75">0{active + 1} / 06</span>
+          <span className="text-xs font-semibold text-white/75">0{active + 1} / 0{services.length}</span>
         </div>
         <div className="pt-12">
           <span className="mb-3 grid h-9 w-9 place-items-center rounded-full bg-lime text-navy"><Icon name={s.icon} size={17} /></span>
@@ -160,9 +161,32 @@ export function Header({ route }: { route: string }) {
             </div>
           </div>
           {links.map(([label, href]) => {
-            const active = route.startsWith(href.slice(1))
+            const isAnchor = href.startsWith('#testimonials')
+            const active = isAnchor
+              ? route.includes('testimonials') || (typeof window !== 'undefined' && window.location.hash.includes('testimonials'))
+              : route.startsWith(href.slice(1))
+
+            const handleClick = (e: React.MouseEvent) => {
+              if (isAnchor) {
+                const el = document.getElementById('testimonials')
+                if (el) {
+                  e.preventDefault()
+                  el.scrollIntoView({ behavior: 'smooth' })
+                  window.history.pushState(null, '', '#testimonials')
+                } else {
+                  window.location.hash = '#/testimonials'
+                }
+              }
+            }
+
             return (
-              <a key={href} href={href} aria-current={active ? 'page' : undefined} className={navLink(active)}>
+              <a
+                key={href}
+                href={href}
+                onClick={handleClick}
+                aria-current={active ? 'page' : undefined}
+                className={navLink(active)}
+              >
                 {label}
               </a>
             )
@@ -220,11 +244,32 @@ export function Header({ route }: { route: string }) {
               </ul>
             )}
           </div>
-          {links.map(([label, href]) => (
-            <a key={href} href={href} className="block border-b border-navy/10 py-3.5 font-display text-lg font-bold text-navy">
-              {label}
-            </a>
-          ))}
+          {links.map(([label, href]) => {
+            const isAnchor = href.startsWith('#testimonials')
+            const handleClick = (e: React.MouseEvent) => {
+              setMobileOpen(false)
+              if (isAnchor) {
+                const el = document.getElementById('testimonials')
+                if (el) {
+                  e.preventDefault()
+                  el.scrollIntoView({ behavior: 'smooth' })
+                  window.history.pushState(null, '', '#testimonials')
+                } else {
+                  window.location.hash = '#/testimonials'
+                }
+              }
+            }
+            return (
+              <a
+                key={href}
+                href={href}
+                onClick={handleClick}
+                className="block border-b border-navy/10 py-3.5 font-display text-lg font-bold text-navy"
+              >
+                {label}
+              </a>
+            )
+          })}
           <Button className="mt-5 w-full" variant="navy" href="#/contact">
             Request a site assessment
           </Button>
@@ -269,6 +314,7 @@ export function Footer() {
             ['About', '#/about'],
             ['Journal', '#/blog'],
             ['Services', '#/services'],
+            ['Testimonials', '#testimonials'],
             ['Contact', '#/contact'],
           ]}
         />
