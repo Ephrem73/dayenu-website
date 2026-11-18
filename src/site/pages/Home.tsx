@@ -44,28 +44,12 @@ function Hero() {
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,19,50,.52)_0%,rgba(10,19,50,.34)_38%,rgba(10,19,50,.65)_72%,rgba(10,19,50,.95)_100%)]"
       />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_15%_55%,rgba(10,19,50,.7),transparent_60%)]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(10,19,50,.65),transparent_70%)]" />
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_88%_78%,rgba(182,228,140,.2),transparent_45%)]" />
-      <Container className="pointer-events-none absolute inset-0 -z-10 hidden lg:block">
-        <div className="grid h-full grid-cols-4 border-x border-lime/[.12]">
-          {[0, 1, 2, 3].map((i) => (
-            <div key={i} className={i ? 'border-l border-lime/[.12]' : ''} />
-          ))}
-        </div>
-      </Container>
 
       <Container className="hero-content flex flex-1 flex-col pt-16 md:pt-20 lg:pt-22">
-        <div className="flex items-start justify-end gap-6" style={{ animation: 'fade .8s 1.1s ease both' }}>
-          <p aria-live="polite" className="hidden text-right font-display text-xs text-white/70 md:block">
-            <span className="text-lime">N° 0{active + 1}</span> <span className="opacity-50">/ 03</span>
-            <span key={current.label} className="fade-in mt-0.5 block text-white">
-              {current.label}
-            </span>
-          </p>
-        </div>
-
-        <div className="hero-main mt-4 flex flex-1 flex-col justify-end pb-4 md:mt-5 md:pb-5">
-          <h1 className="hero-heading text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]">
+        <div className="hero-main mx-auto flex flex-1 flex-col items-center justify-center text-center pb-6 md:pb-8">
+          <h1 className="hero-heading text-center text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]">
             <span className="block overflow-hidden pb-[0.06em]">
               <span className="rise block" style={{ animationDelay: '.8s' }}>
                 Cleaner streets<span className="text-lime">.</span>
@@ -84,7 +68,7 @@ function Hero() {
             </span>
           </h1>
 
-          <div className="hero-actions mt-6 flex flex-wrap items-center gap-2.5 pb-2 md:mt-8" style={{ animation: 'fade .9s 1.3s ease both' }}>
+          <div className="hero-actions mt-6 flex flex-wrap items-center justify-center gap-3 pb-2 md:mt-8" style={{ animation: 'fade .9s 1.3s ease both' }}>
             <Button href="#/contact">Request a site assessment</Button>
             <Button variant="ghost-light" href="#/contact?topic=Pilot">
               Start a pilot area
