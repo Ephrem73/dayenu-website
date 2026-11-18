@@ -14,25 +14,6 @@ const slides = [
   { label: 'Parks & greenery', href: '#/services/landscaping', image: img.greenery },
 ]
 
-function Seal() {
-  return (
-    <div className="relative grid h-28 w-28 place-items-center xl:h-32 xl:w-32">
-      <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full text-lime" aria-hidden>
-        <defs>
-          <path id="seal-circle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
-        </defs>
-        <circle cx="100" cy="100" r="98" fill="none" stroke="currentColor" strokeOpacity=".45" />
-        <text className="fill-current font-display text-[0.78125rem] font-semibold tracking-[0.3em] uppercase">
-          <textPath href="#seal-circle">Clean environments · Safer communities ·</textPath>
-        </text>
-      </svg>
-      <span className="grid h-12 w-12 place-items-center rounded-full bg-lime text-navy shadow-[0_0_32px_rgba(182,228,140,.45)] xl:h-14 xl:w-14">
-        <Star size={20} />
-      </span>
-    </div>
-  )
-}
-
 function Hero() {
   const [active, setActive] = useState(0)
   const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
@@ -103,31 +84,11 @@ function Hero() {
             </span>
           </h1>
 
-          <div className="hero-details mt-4 grid items-end gap-5 md:grid-cols-12" style={{ animation: 'fade .9s 1.3s ease both' }}>
-            <div className="md:col-span-7 lg:col-span-6">
-              <p className="hero-description max-w-[36rem] leading-relaxed text-white/80 md:text-xl">
-                Professional cleaning and maintenance for Addis Ababa’s roads, facilities and public spaces.
-              </p>
-              <ul className="hero-highlights mt-3 mb-3.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.8125rem] text-white/90">
-                {['Available 24/7', 'Supervised every shift', 'Measurable reporting'].map((t) => (
-                  <li key={t} className="flex items-center gap-2 font-medium">
-                    <span className="grid h-4 w-4 place-items-center rounded-full bg-lime text-navy">
-                      <Icon name="check" size={10} />
-                    </span>
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <div className="hero-actions flex flex-wrap items-center gap-2.5">
-                <Button href="#/contact">Request a site assessment</Button>
-                <Button variant="ghost-light" href="#/contact?topic=Pilot">
-                  Start a pilot area
-                </Button>
-              </div>
-            </div>
-            <div className="hidden justify-end md:col-span-5 md:flex lg:col-span-6">
-              <Seal />
-            </div>
+          <div className="hero-actions mt-6 flex flex-wrap items-center gap-2.5 pb-2 md:mt-8" style={{ animation: 'fade .9s 1.3s ease both' }}>
+            <Button href="#/contact">Request a site assessment</Button>
+            <Button variant="ghost-light" href="#/contact?topic=Pilot">
+              Start a pilot area
+            </Button>
           </div>
         </div>
 
