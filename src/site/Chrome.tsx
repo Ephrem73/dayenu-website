@@ -11,9 +11,8 @@ const links: [string, string][] = [
   ['Journal', '#/blog'],
 ]
 
-// Header heights: 32px utility bar + 64px main bar.
-const BAR = 64
-const FULL = 96
+// Header height: 64px main bar.
+const HEADER_HEIGHT = 64
 
 function MegaMenu({ onNavigate }: { onNavigate: () => void }) {
   const [active, setActive] = useState(0)
@@ -114,58 +113,12 @@ export function Header({ route }: { route: string }) {
     `relative font-display text-sm font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:bg-lime after:transition-all after:duration-300 ${
       active ? 'after:w-full' : 'after:w-0 hover:after:w-full'
     } ${solid ? 'text-navy' : 'text-white'}`
-  const top = scrolled ? BAR : FULL
+  const top = HEADER_HEIGHT
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${solid ? 'bg-white shadow-[0_1px_0_rgba(16,29,73,0.08)]' : 'bg-transparent'}`}
     >
-      <div
-        className={`hidden overflow-hidden border-b transition-[height,border-color] duration-500 md:block ${scrolled ? 'h-0' : 'h-8'} ${
-          solid ? 'border-navy/10 bg-paper text-navy/65' : 'border-white/15 text-white/75'
-        }`}
-      >
-        <Container className="flex h-8 items-center justify-between text-xs">
-          <p className="flex items-center gap-2.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-lime" />
-            Addis Ababa, Ethiopia
-          </p>
-          <div className="flex items-center gap-4 lg:gap-5">
-            <span className="hidden items-center gap-1.5 xl:flex">
-              <Icon name="clock" size={13} /> Available 24/7
-            </span>
-            <a href={`mailto:${company.email}`} className="hidden items-center gap-1.5 hover:opacity-100 lg:flex">
-              <Icon name="mail" size={13} /> {company.email}
-            </a>
-            <a href={tel(company.phones[0])} className="hidden items-center gap-1.5 hover:opacity-100 sm:flex">
-              <Icon name="phone" size={13} /> {company.phones[0]}
-            </a>
-            <a
-              href={company.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              className={`hidden items-center gap-1 text-[0.75rem] font-semibold transition hover:opacity-100 lg:inline-flex ${
-                solid ? 'text-emerald-600' : 'text-white'
-              }`}
-            >
-              <Icon name="whatsapp" size={13} /> WhatsApp
-            </a>
-            <a
-              href={company.telegramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Telegram"
-              className={`hidden items-center gap-1 text-[0.75rem] font-semibold transition hover:opacity-100 lg:inline-flex ${
-                solid ? 'text-sky-600' : 'text-white'
-              }`}
-            >
-              <Icon name="telegram" size={13} /> Telegram
-            </a>
-          </div>
-        </Container>
-      </div>
-
       <Container className="flex h-16 items-center justify-between">
         <a href="#/" aria-label="Dayenu home" className="block">
           <img
